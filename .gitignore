@@ -15,3 +15,9 @@
 /log/*
 !/log/.keep
 /tmp
+
+# Ignore public assets
+/public/assets/*
+
+# Ignore temporary files
+*.swp

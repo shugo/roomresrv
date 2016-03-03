@@ -1,0 +1,24 @@
+ja:
+  activerecord:
+    models:
+      office: オフィス  #g
+      room: 会議室  #g
+      reservation: 予約  #g
+
+    attributes:
+      office:
+        name: 名前  #g
+        created_at: 登録日時
+      room:
+        office_id: オフィス
+        name: 名前  #g
+        created_at: 登録日時
+      reservation:
+        room_id: 会議室
+        representative: 担当者
+        purpose: 用途
+        num_participants: 参加者数
+        start_at: 開始日時
+        end_at: 終了日時
+        repeating_mode: 繰り返し
+        created_at: 登録日時

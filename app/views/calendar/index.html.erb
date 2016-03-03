@@ -1,0 +1,8 @@
+<div id="room-legend">
+  <% Room.order("id").each do |room| %>
+    <span class="room" style="background-color: <%= @room_colors[room.id] %>">
+      <%= room.name_with_office %>
+    </span>
+  <% end %>
+</div>
+<div id="calendar"></div>

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  room_id: 
+  representative: MyString
+  purpose: MyString
+  num_participants: 1
+  start_at: 2016-03-03 19:15:53
+  end_at: 2016-03-03 19:15:53
+
+two:
+  room_id: 
+  representative: MyString
+  purpose: MyString
+  num_participants: 1
+  start_at: 2016-03-03 19:15:53
+  end_at: 2016-03-03 19:15:53

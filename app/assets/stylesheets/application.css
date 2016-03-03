@@ -10,6 +10,11 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ *= require fullcalendar
  *= require_tree .
  *= require_self
  */
+
+footer {
+  margin: 2em 0 0 0;
+}
