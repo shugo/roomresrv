@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160303145041) do
+ActiveRecord::Schema.define(version: 20160303231211) do
 
   create_table "offices", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "lock_version", default: 0, null: false
   end
 
   create_table "reservations", force: :cascade do |t|
@@ -29,15 +30,20 @@ ActiveRecord::Schema.define(version: 20160303145041) do
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "repeating_mode",   default: 0, null: false
+    t.integer  "lock_version",     default: 0, null: false
   end
 
+  add_index "reservations", ["end_at"], name: "index_reservations_on_end_at"
+  add_index "reservations", ["repeating_mode"], name: "index_reservations_on_repeating_mode"
   add_index "reservations", ["room_id"], name: "index_reservations_on_room_id"
+  add_index "reservations", ["start_at"], name: "index_reservations_on_start_at"
 
   create_table "rooms", force: :cascade do |t|
     t.integer  "office_id"
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+    t.integer  "lock_version", default: 0, null: false
   end
 
   add_index "rooms", ["office_id"], name: "index_rooms_on_office_id"
