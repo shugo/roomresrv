@@ -34,7 +34,7 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       if @reservation.save
-        format.html { redirect_to "/calendar/index", notice: '予約を登録しました' }
+        format.html { redirect_to @reservation, notice: '予約を登録しました' }
         format.json { render :show, status: :created, location: @reservation }
       else
         format.html { render :new }
@@ -48,7 +48,7 @@ class ReservationsController < ApplicationController
   def update
     respond_to do |format|
       if @reservation.update(reservation_params)
-        format.html { redirect_to "/calendar/index", notice: '予約を更新しました' }
+        format.html { redirect_to @reservation, notice: '予約を更新しました' }
         format.json { render :show, status: :ok, location: @reservation }
       else
         format.html { render :edit }

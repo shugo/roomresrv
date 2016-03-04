@@ -34,7 +34,8 @@
       "location" => @reservation.room.name_with_office
     })
 %>
-<%= link_to 'Googleカレンダーに追加', google_url, class: 'btn btn-default' %>
+<%= link_to 'Googleカレンダーに追加', google_url, class: 'btn btn-default',
+            target: '_blank' %>
 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
               reservation_path(@reservation),
               :method => 'delete',
