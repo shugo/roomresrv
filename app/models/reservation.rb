@@ -23,5 +23,8 @@ class Reservation < ActiveRecord::Base
       errors.add(:start_at, "は他の予約と重なっています")
       errors.add(:end_at, "は他の予約と重なっています")
     end
+    if start_at > end_at
+      errors.add(:end_at, "は開始日時より前の日時です")
+    end
   end
 end
