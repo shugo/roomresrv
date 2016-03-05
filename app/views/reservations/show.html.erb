@@ -27,13 +27,13 @@
               edit_reservation_path(@reservation), :class => 'btn btn-default' %>
 <%
     google_url = "https://www.google.com/calendar/render?" +
-    URI.encode_www_form({
-      "action" => "TEMPLATE",
-      "text" => @reservation.purpose,
-      "dates" => @reservation.start_at.strftime("%Y%m%dT%H%M%S") + "/" +
-                 @reservation.end_at.strftime("%Y%m%dT%H%M%S"),
-      "location" => @reservation.room.name_with_office
-    })
+      {
+        "action" => "TEMPLATE",
+        "text" => @reservation.purpose,
+        "dates" => @reservation.start_at.strftime("%Y%m%dT%H%M%S") + "/" +
+                   @reservation.end_at.strftime("%Y%m%dT%H%M%S"),
+        "location" => @reservation.room.name_with_office
+      }.to_query
 %>
 <%= link_to 'Googleカレンダーに追加', google_url, class: 'btn btn-default',
             target: '_blank' %>

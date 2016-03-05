@@ -1,0 +1,24 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "a39672e6d473d47f4870806f11e433f7987181f4ed7465a42b9fd7a1e2ed854e",
+      "message": "Unsafe model attribute in link_to href",
+      "file": "app/views/reservations/show.html.erb",
+      "line": 37,
+      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to(\"Google\\u{30ab}\\u{30ec}\\u{30f3}\\u{30c0}\\u{30fc}\\u{306b}\\u{8ffd}\\u{52a0}\", (\"https://www.google.com/calendar/render?\" + { \"action\" => \"TEMPLATE\", \"text\" => Reservation.new(reservation_params).purpose, \"dates\" => ((Reservation.new(reservation_params).start_at.strftime(\"%Y%m%dT%H%M%S\") + \"/\") + Reservation.new(reservation_params).end_at.strftime(\"%Y%m%dT%H%M%S\")), \"location\" => Reservation.new(reservation_params).room.name_with_office }.to_query), :class => \"btn btn-default\", :target => \"_blank\")",
+      "render_path": [{"type":"controller","class":"ReservationsController","method":"create","line":38,"file":"app/controllers/reservations_controller.rb"}],
+      "location": {
+        "type": "template",
+        "template": "reservations/show"
+      },
+      "user_input": "Reservation.new(reservation_params)",
+      "confidence": "Medium",
+      "note": ""
+    }
+  ],
+  "updated": "2016-03-05 14:28:04 +0900",
+  "brakeman_version": "3.2.1"
+}
