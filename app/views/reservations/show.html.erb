@@ -21,7 +21,8 @@
 </dl>
 
 <%= link_to t('.back', :default => t("helpers.links.back")),
-              "/calendar/index", :class => 'btn btn-default'  %>
+              {controller: "calendar", action: "index"},
+              class: 'btn btn-default' %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_reservation_path(@reservation), :class => 'btn btn-default' %>
 <%

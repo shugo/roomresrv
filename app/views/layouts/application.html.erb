@@ -48,8 +48,8 @@
         <a class="navbar-brand" href="#">会議室予約</a>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <li><%= link_to "カレンダー", "/calendar/index"  %></li>
-            <li><%= link_to "新規予約", "/reservations/new"  %></li>
+            <li><%= link_to "カレンダー", controller: "calendar", action: "index"  %></li>
+            <li><%= link_to "新規予約", controller: "reservations", action: "new"  %></li>
             <!--
             <li><%= link_to Reservation.model_name.human, "/reservations"  %></li>
             <li><%= link_to Room.model_name.human, "/rooms"  %></li>
