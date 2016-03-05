@@ -76,7 +76,7 @@ class ReservationTest < ActiveSupport::TestCase
       [@reservation.start_at - 30.minutes, @reservation.start_at + 30.minutes],
       [@reservation.end_at - 30.minutes, @reservation.end_at + 30.minutes],
       [@reservation.start_at - 10.minutes, @reservation.end_at + 10.minutes],
-      [@reservation.start_at + 10.minutes, @reservation.end_at - 10.minutes],
+      [@reservation.start_at + 10.minutes, @reservation.end_at - 10.minutes]
     ].each do |start_at, end_at|
       r = Reservation.new(room: @reservation.room,
                           representative: "鈴木",
