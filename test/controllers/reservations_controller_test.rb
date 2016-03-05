@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ReservationsControllerTest < ActionController::TestCase
   setup do
-    @reservation = reservations(:one)
+    @reservation = reservations(:mendan)
   end
 
   test "should get index" do
@@ -18,7 +18,7 @@ class ReservationsControllerTest < ActionController::TestCase
 
   test "should create reservation" do
     assert_difference('Reservation.count') do
-      post :create, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: @reservation.start_at }
+      post :create, reservation: { end_at: Time.now + 1.hour, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: Time.now }
     end
 
     assert_redirected_to reservation_path(assigns(:reservation))
@@ -44,6 +44,6 @@ class ReservationsControllerTest < ActionController::TestCase
       delete :destroy, id: @reservation
     end
 
-    assert_redirected_to reservations_path
+    assert_redirected_to calendar_index_path
   end
 end

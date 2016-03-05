@@ -2,7 +2,7 @@ require 'test_helper'
 
 class OfficesControllerTest < ActionController::TestCase
   setup do
-    @office = offices(:one)
+    @office = offices(:matsue)
   end
 
   test "should get index" do

@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  office_id: 
-  name: MyString
+ousetsu:
+  office: matsue
+  name: 応接
 
-two:
-  office_id: 
-  name: MyString
+kitchen:
+  office: matsue
+  name: キッチン
+
+meeting_room:
+  office: tokyo
+  name: 会議室
