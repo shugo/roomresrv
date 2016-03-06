@@ -39,16 +39,16 @@ class CalendarController < ApplicationController
 
   def non_repeating_reservations(room_colors, start_time, end_time)
     reservations = Reservation.includes(:room).where(
-      "repeating_mode = 0 AND start_at <= ? AND end_at >= ?",
+      "repeating_mode = 0 AND start_at < ? AND end_at > ?",
       end_time, start_time
-    ).map { |reservation|
+    ).order("start_at, id").map { |reservation|
       reservation_event(room_colors, reservation)
     }
   end
 
   def weekly_reservations(room_colors, start_time, end_time)
     Reservation.includes(:room).where("repeating_mode = 1").
-      flat_map { |reservation|
+      order("start_at, id").flat_map { |reservation|
       offset = reservation.start_at.wday - start_time.wday
       if offset < 0
         offset += 7
@@ -68,7 +68,7 @@ class CalendarController < ApplicationController
 
   def monthly_reservations(room_colors, start_time, end_time)
     Reservation.includes(:room).where("repeating_mode = 2").
-      flat_map { |reservation|
+      order("start_at, id").flat_map { |reservation|
       day = reservation.start_at.day
       a = []
       t = Time.mktime(start_time.year, start_time.month, day) +

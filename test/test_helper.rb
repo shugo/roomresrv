@@ -8,3 +8,9 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 end
+
+class ActionController::TestCase
+  def json
+    @json ||= JSON.parse(response.body)
+  end
+end
