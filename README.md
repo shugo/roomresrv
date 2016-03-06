@@ -1,8 +1,32 @@
 # roomresrv
+===========
 
 Meeting reservation system for NaCl
 
 [![Build Status](https://travis-ci.org/shugo/roomresrv.svg?branch=master)](https://travis-ci.org/shugo/roomresrv)
+
+Setup
+-----
+
+```bash
+$ git clone https://github.com/shugo/roomresrv.git
+$ cd roomresrv
+$ bundle install
+$ export RAILS_ENV=production
+$ rake db:setup
+$ vi db/seeds.rb
+$ rake db:seed
+$ rake assets:precompile
+$ rake secret
+```
+
+How to start
+------------
+
+
+```bash
+$ RAILS_SERVE_STATIC_FILES=1 SECRET_KEY_BASE=<result of rake secret> bundle exec rails server -e production
+```
 
 License
 -------
