@@ -13,9 +13,8 @@ $ git clone https://github.com/shugo/roomresrv.git
 $ cd roomresrv
 $ bundle install
 $ export RAILS_ENV=production
-$ rake db:setup
 $ vi db/seeds.rb
-$ rake db:seed
+$ rake db:setup
 $ rake assets:precompile
 $ rake secret
 ```

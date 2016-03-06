@@ -1,10 +1,12 @@
-Office.create!([
-  {name: "松江本社"},
-  {name: "東京支社"}
-])
-Room.create!([
-  {office_id: 1, name: "小部屋応接"},
-  {office_id: 1, name: "大部屋"},
-  {office_id: 1, name: "キッチン"},
-  {office_id: 2, name: "会議室"}
-])
+unless Office.where(name: "松江本社").first
+  matsue = Office.create!(name: "松江本社")
+  tokyo = Office.create!(name: "東京支社")
+  Room.create!([
+    {office: matsue, name: "小部屋応接"},
+    {office: matsue, name: "大部屋"},
+    {office: matsue, name: "キッチン"},
+    {office: tokyo, name: "会議室"}
+  ])
+else
+  puts "Do nothing"
+end
