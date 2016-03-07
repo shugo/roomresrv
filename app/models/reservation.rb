@@ -11,8 +11,8 @@ class Reservation < ActiveRecord::Base
   validate :check_schedule_conflict
 
   REPEATING_MODES = {
-    0 => "なし",
-    1 => "毎週"
+    "no_repeat" => "なし",
+    "weekly" => "毎週"
   }
 
   def check_schedule_conflict
