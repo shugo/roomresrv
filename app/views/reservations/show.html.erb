@@ -17,7 +17,7 @@
   <dt><strong><%= model_class.human_attribute_name(:end_at) %>:</strong></dt>
   <dd><%= @reservation.end_at.strftime("%Y/%m/%d %H:%M") %></dd>
   <dt><strong><%= model_class.human_attribute_name(:repeating_mode) %>:</strong></dt>
-  <dd><%= Reservation::REPEATING_MODES[@reservation.repeating_mode] %></dd>
+  <dd><%= Reservation::REPEATING_MODE_LABELS[@reservation.repeating_mode] %></dd>
 </dl>
 
 <%= link_to t('.back', :default => t("helpers.links.back")),

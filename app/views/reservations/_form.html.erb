@@ -64,7 +64,7 @@
   <div class="form-group">
     <%= f.label :repeating_mode, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
-      <%= f.select :repeating_mode, Reservation::REPEATING_MODES.invert %>
+      <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
     </div>
     <%=f.error_span(:room_id) %>
   </div>

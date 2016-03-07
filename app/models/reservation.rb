@@ -10,7 +10,7 @@ class Reservation < ActiveRecord::Base
   validates :end_at, presence: true
   validate :check_schedule_conflict
 
-  REPEATING_MODES = {
+  REPEATING_MODE_LABELS = {
     "no_repeat" => "なし",
     "weekly" => "毎週"
   }
