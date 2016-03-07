@@ -1,14 +1,18 @@
 class Reservation < ActiveRecord::Base
   belongs_to :room
+
+  enum repeating_mode: { no_repeat: 0, weekly: 1 }
+
   validates :representative, presence: true
   validates :purpose, presence: true
   validates :num_participants, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :start_at, presence: true
+  validates :end_at, presence: true
   validate :check_schedule_conflict
 
   REPEATING_MODES = {
     0 => "なし",
-    1 => "毎週",
-    2 => "毎月"
+    1 => "毎週"
   }
 
   def check_schedule_conflict
@@ -23,7 +27,7 @@ class Reservation < ActiveRecord::Base
       errors.add(:start_at, "は他の予約と重なっています")
       errors.add(:end_at, "は他の予約と重なっています")
     end
-    if start_at > end_at
+    if start_at && start_at > end_at
       errors.add(:end_at, "は開始日時より前の日時です")
     end
   end
