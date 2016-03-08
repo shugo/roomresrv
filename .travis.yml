@@ -14,3 +14,4 @@ before_script:
 script:
   - bundle exec rake test
   - bundle exec brakeman
+  - bundle exec bundle-audit check --update
