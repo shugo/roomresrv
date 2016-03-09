@@ -33,6 +33,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'pg'
+gem 'unicorn'
 gem 'jquery-turbolinks'
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
