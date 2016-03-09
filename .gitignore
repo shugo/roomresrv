@@ -19,5 +19,8 @@
 # Ignore public assets
 /public/assets/*
 
+# Ignore database configuration.
+/config/database.yml
+
 # Ignore temporary files
 *.swp

@@ -1,0 +1,15 @@
+default: &default
+  adapter: postgresql
+  username: postgres
+  password:
+  database: roomresrv_<%= Rails.env %>
+  min_messages: ERROR
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

@@ -13,6 +13,7 @@ $ git clone https://github.com/shugo/roomresrv.git
 $ cd roomresrv
 $ bundle install
 $ export RAILS_ENV=production
+$ cp config/database.postgresql.yml config/database.yml
 $ vi db/seeds.rb
 $ rake db:setup
 $ rake assets:precompile
