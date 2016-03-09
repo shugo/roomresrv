@@ -40,6 +40,7 @@ class OfficesControllerTest < ActionController::TestCase
   end
 
   test "should destroy office" do
+    @office.rooms.clear
     assert_difference('Office.count', -1) do
       delete :destroy, id: @office
     end

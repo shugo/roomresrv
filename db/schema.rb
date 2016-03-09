@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20160307124438) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "offices", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",               null: false
@@ -33,10 +36,10 @@ ActiveRecord::Schema.define(version: 20160307124438) do
     t.integer  "lock_version",     default: 0, null: false
   end
 
-  add_index "reservations", ["end_at"], name: "index_reservations_on_end_at"
-  add_index "reservations", ["repeating_mode"], name: "index_reservations_on_repeating_mode"
-  add_index "reservations", ["room_id"], name: "index_reservations_on_room_id"
-  add_index "reservations", ["start_at"], name: "index_reservations_on_start_at"
+  add_index "reservations", ["end_at"], name: "index_reservations_on_end_at", using: :btree
+  add_index "reservations", ["repeating_mode"], name: "index_reservations_on_repeating_mode", using: :btree
+  add_index "reservations", ["room_id"], name: "index_reservations_on_room_id", using: :btree
+  add_index "reservations", ["start_at"], name: "index_reservations_on_start_at", using: :btree
 
   create_table "rooms", force: :cascade do |t|
     t.integer  "office_id"
@@ -46,6 +49,8 @@ ActiveRecord::Schema.define(version: 20160307124438) do
     t.integer  "lock_version", default: 0, null: false
   end
 
-  add_index "rooms", ["office_id"], name: "index_rooms_on_office_id"
+  add_index "rooms", ["office_id"], name: "index_rooms_on_office_id", using: :btree
 
+  add_foreign_key "reservations", "rooms"
+  add_foreign_key "rooms", "offices"
 end

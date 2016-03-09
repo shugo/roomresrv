@@ -40,6 +40,7 @@ class RoomsControllerTest < ActionController::TestCase
   end
 
   test "should destroy room" do
+    @room.reservations.clear
     assert_difference('Room.count', -1) do
       delete :destroy, id: @room
     end
