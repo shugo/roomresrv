@@ -1,51 +1,51 @@
 class CalendarController < ApplicationController
   COLORS = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]
 
+  before_action :set_rooms
+
   def index
-    @room_colors = get_room_colors
   end
 
   def reservations
     start_time = Time.parse(params[:start])
     end_time = Time.parse(params[:end])
-    room_colors = get_room_colors
-    reservations =
-      no_repeat_reservations(room_colors, start_time, end_time) +
-      weekly_reservations(room_colors, start_time, end_time)
+    reservations = no_repeat_reservations(start_time, end_time) +
+      weekly_reservations(start_time, end_time)
     render json: reservations
   end
 
   private
   
-  def get_room_colors
+  def set_rooms
+    @rooms = Room.order("office_id, id")
     e = COLORS.cycle
-    Room.order("id").each_with_object({}) { |room, h|
+    @room_colors = @rooms.each_with_object({}) { |room, h|
       h[room.id] = e.next
     }
   end
 
-  def reservation_event(room_colors, reservation,
+  def reservation_event(reservation,
                         start_at = reservation.start_at,
                         end_at = reservation.end_at)
     {
       title: "#{reservation.purpose}（#{reservation.representative}）",
       start: start_at,
       end: end_at,
-      color: room_colors[reservation.room.id],
+      color: @room_colors[reservation.room.id],
       url: url_for(reservation)
     }
   end
 
-  def no_repeat_reservations(room_colors, start_time, end_time)
+  def no_repeat_reservations(start_time, end_time)
     reservations = Reservation.includes(:room).no_repeat.where(
       "start_at < ? AND end_at > ?",
       end_time, start_time
     ).order("start_at, id").map { |reservation|
-      reservation_event(room_colors, reservation)
+      reservation_event(reservation)
     }
   end
 
-  def weekly_reservations(room_colors, start_time, end_time)
+  def weekly_reservations(start_time, end_time)
     Reservation.includes(:room).weekly.where("repeating_mode = 1").
       order("start_at, id").flat_map { |reservation|
       offset = reservation.start_at.wday - start_time.wday
@@ -56,7 +56,7 @@ class CalendarController < ApplicationController
       t = start_time + offset.days +
         (reservation.start_at - reservation.start_at.beginning_of_day)
       while t < end_time
-        a << reservation_event(room_colors, reservation, t,
+        a << reservation_event(reservation, t,
                                reservation.end_at +
                                (t - reservation.start_at))
         t += 7.days
