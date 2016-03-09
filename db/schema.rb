@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160307124438) do
+ActiveRecord::Schema.define(version: 20160309082337) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,7 +27,7 @@ ActiveRecord::Schema.define(version: 20160307124438) do
     t.integer  "room_id"
     t.string   "representative"
     t.string   "purpose"
-    t.integer  "num_participants"
+    t.string   "num_participants"
     t.datetime "start_at"
     t.datetime "end_at"
     t.datetime "created_at",                   null: false

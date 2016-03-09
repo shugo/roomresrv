@@ -5,7 +5,6 @@ class Reservation < ActiveRecord::Base
 
   validates :representative, presence: true
   validates :purpose, presence: true
-  validates :num_participants, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :start_at, presence: true
   validates :end_at, presence: true
   validate :check_schedule_conflict
