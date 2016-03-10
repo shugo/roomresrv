@@ -18,9 +18,13 @@ class CalendarController < ApplicationController
   
   def set_rooms
     @rooms = Room.order("office_id, id")
-    e = COLORS.cycle
+    rgb = [0, 24, 64]
+    base = 0xff - rgb.max
+    e = rgb.permutation.cycle
     @room_colors = @rooms.each_with_object({}) { |room, h|
-      h[room.id] = e.next
+      h[room.id] = "#" + e.next.map { |i|
+        "%02x" % (base + i)
+      }.join
     }
   end
 
