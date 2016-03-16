@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :reservations
   get 'calendar/index'
+  get 'calendar/help'
   get 'calendar/reservations'
 
   resources :rooms

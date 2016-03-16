@@ -147,6 +147,7 @@ GEM
     rake (10.5.0)
     rdoc (4.2.2)
       json (~> 1.4)
+    redcarpet (3.3.3)
     ref (2.0.0)
     ruby2ruby (2.3.0)
       ruby_parser (~> 3.1)
@@ -226,6 +227,7 @@ DEPENDENCIES
   momentjs-rails
   pg
   rails (= 4.2.5.2)
+  redcarpet
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring

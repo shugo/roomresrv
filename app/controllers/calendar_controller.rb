@@ -6,6 +6,9 @@ class CalendarController < ApplicationController
   def index
   end
 
+  def help
+  end
+
   def reservations
     start_time = Time.parse(params[:start])
     end_time = Time.parse(params[:end])
