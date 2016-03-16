@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
+  after_action :invoke_slack_webhook, only: [:create, :update]
 
   # GET /reservations
   # GET /reservations.json
@@ -71,6 +72,26 @@ class ReservationsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_reservation
       @reservation = Reservation.find(params[:id])
+    end
+
+    def invoke_slack_webhook
+      return if ENV["SLACK_WEBHOOK_URL"].blank?
+
+      uri = URI.parse(ENV["SLACK_WEBHOOK_URL"])
+      Net::HTTP.start(uri.host, uri.port,
+                      use_ssl: uri.scheme == "https") do |http|
+        req = Net::HTTP::Post.new(uri.path)
+        time = @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M")
+        room = @reservation.room.name_with_office
+        url = reservation_url(@reservation)
+        req.set_form_data("payload" => {
+          "text" => "#{time}に#{room}が予約されました: #{url}"
+        }.to_json)
+        res = http.request(req)
+        if res.code != "200"
+          logger.error("Slack Webhook failed: #{res.code} #{res.message}: #{res.body}")
+        end
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
