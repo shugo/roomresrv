@@ -35,9 +35,11 @@ class ReservationsController < ApplicationController
 
     respond_to do |format|
       if @reservation.save
+        @invoke_slack_webhook = true
         format.html { redirect_to @reservation, notice: '予約を登録しました' }
         format.json { render :show, status: :created, location: @reservation }
       else
+        @invoke_slack_webhook = false
         format.html { render :new }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
@@ -48,10 +50,15 @@ class ReservationsController < ApplicationController
   # PATCH/PUT /reservations/1.json
   def update
     respond_to do |format|
-      if @reservation.update(reservation_params)
+      @reservation.attributes = reservation_params
+      room_or_time_changed =
+        @reservation.room_id_changed? || @reservation.start_at_changed?
+      if @reservation.save
+        @invoke_slack_webhook = room_or_time_changed
         format.html { redirect_to @reservation, notice: '予約を更新しました' }
         format.json { render :show, status: :ok, location: @reservation }
       else
+        @invoke_slack_webhook = false
         format.html { render :edit }
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
@@ -75,7 +82,7 @@ class ReservationsController < ApplicationController
     end
 
     def invoke_slack_webhook
-      return if ENV["SLACK_WEBHOOK_URL"].blank?
+      return if ENV["SLACK_WEBHOOK_URL"].blank? || !@invoke_slack_webhook
 
       uri = URI.parse(ENV["SLACK_WEBHOOK_URL"])
       Net::HTTP.start(uri.host, uri.port,
