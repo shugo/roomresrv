@@ -20,7 +20,7 @@
   <div class="form-group">
     <%= f.label :room_id, :class => 'control-label col-lg-2' %>
     <div class="col-lg-10">
-      <%= f.collection_select :room_id, Room.all, :id, :name_with_office %>
+      <%= f.collection_select :room_id, @rooms, :id, :name_with_office %>
     </div>
     <%=f.error_span(:room_id) %>
   </div>

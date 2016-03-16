@@ -1,7 +1,5 @@
 class CalendarController < ApplicationController
-  COLORS = ["#66c2a5", "#fc8d62", "#8da0cb", "#e78ac3", "#a6d854", "#ffd92f", "#e5c494", "#b3b3b3"]
-
-  before_action :set_rooms
+  before_action :set_rooms, only: [:index, :reservations]
 
   def index
   end
@@ -20,7 +18,7 @@ class CalendarController < ApplicationController
   private
   
   def set_rooms
-    @rooms = Room.order("office_id, id")
+    @rooms = Room.includes(:office).order("office_id, id")
     rgb = [0, 24, 64]
     base = 0xff - rgb.max
     e = rgb.permutation.cycle
@@ -38,13 +36,13 @@ class CalendarController < ApplicationController
       title: "#{reservation.purpose}（#{reservation.representative}）",
       start: start_at,
       end: end_at,
-      color: @room_colors[reservation.room.id],
+      color: @room_colors[reservation.room_id],
       url: url_for(reservation)
     }
   end
 
   def no_repeat_reservations(start_time, end_time)
-    reservations = Reservation.includes(:room).no_repeat.where(
+    reservations = Reservation.no_repeat.where(
       "start_at < ? AND end_at > ?",
       end_time, start_time
     ).order("start_at, id").map { |reservation|
@@ -53,7 +51,7 @@ class CalendarController < ApplicationController
   end
 
   def weekly_reservations(start_time, end_time)
-    Reservation.includes(:room).weekly.where("repeating_mode = 1").
+    Reservation.weekly.where("repeating_mode = 1").
       order("start_at, id").flat_map { |reservation|
       offset = reservation.start_at.wday - start_time.wday
       if offset < 0

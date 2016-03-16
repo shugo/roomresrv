@@ -1,5 +1,6 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
+  before_action :set_rooms, only: [:new, :edit]
   after_action :invoke_slack_webhook, only: [:create, :update]
 
   # GET /reservations
@@ -79,6 +80,10 @@ class ReservationsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_reservation
       @reservation = Reservation.find(params[:id])
+    end
+
+    def set_rooms
+      @rooms = Room.includes(:office).order("office_id, id")
     end
 
     def invoke_slack_webhook
