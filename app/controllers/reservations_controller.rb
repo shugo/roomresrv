@@ -96,19 +96,17 @@ class ReservationsController < ApplicationController
       return if ENV["SLACK_WEBHOOK_URL"].blank? || !@invoke_slack_webhook
 
       uri = URI.parse(ENV["SLACK_WEBHOOK_URL"])
-      Net::HTTP.start(uri.host, uri.port,
-                      use_ssl: uri.scheme == "https") do |http|
-        req = Net::HTTP::Post.new(uri.path)
-        time = @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M")
-        room = @reservation.room.name_with_office
-        url = reservation_url(@reservation)
-        req.set_form_data("payload" => {
+      time = @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M")
+      room = @reservation.room.name_with_office
+      url = reservation_url(@reservation)
+      form = {
+        "payload" => {
           "text" => "#{time}に#{room}が予約されました: #{url}"
-        }.to_json)
-        res = http.request(req)
-        if res.code != "200"
-          logger.error("Slack Webhook failed: #{res.code} #{res.message}: #{res.body}")
-        end
+        }.to_json
+      }
+      res = Net::HTTP.post_form(URI.parse(ENV["SLACK_WEBHOOK_URL"]), form)
+      if res.code != "200"
+        logger.error("Slack Webhook failed: #{res.code} #{res.message}: #{res.body}")
       end
     end
 
