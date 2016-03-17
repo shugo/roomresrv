@@ -8,8 +8,10 @@ class CalendarController < ApplicationController
   end
 
   def reservations
-    start_time = Time.parse(params[:start])
-    end_time = Time.parse(params[:end])
+    start_time = params[:start] ?
+      Time.parse(params[:start]) : Time.now.beginning_of_day
+    end_time = params[:end] ?
+      Time.parse(params[:end]) : start_time.end_of_day
     reservations = no_repeat_reservations(start_time, end_time) +
       weekly_reservations(start_time, end_time)
     render json: reservations

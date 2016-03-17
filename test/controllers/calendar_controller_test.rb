@@ -6,7 +6,7 @@ class CalendarControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get reservations" do
+  test "should get reservations when start and end is given" do
     Reservation.create!([
       {
         room: rooms(:ousetsu),
@@ -23,7 +23,7 @@ class CalendarControllerTest < ActionController::TestCase
         num_participants: 3,
         start_at: Time.mktime(2016, 3, 1, 0, 0, 0),
         end_at: Time.mktime(2016, 3, 1, 1, 0, 0)
-      },
+      }
     ])
 
     reservations = Reservation.create!([
@@ -121,6 +121,58 @@ class CalendarControllerTest < ActionController::TestCase
       assert_equal(json_time(t), j["start"])
       assert_equal(json_time(t + 1.hour), j["end"])
       assert_equal(reservation_url(wr), j["url"])
+    end
+  end
+
+  test "should get today's reservations when neither start nor end is given" do
+    beginning_of_today = Time.now.beginning_of_day
+    Reservation.create!([
+      {
+        room: rooms(:ousetsu),
+        representative: "foo",
+        purpose: "bar",
+        num_participants: 3,
+        start_at: beginning_of_today - 1.hour,
+        end_at: beginning_of_today
+      },
+      {
+        room: rooms(:ousetsu),
+        representative: "foo",
+        purpose: "bar",
+        num_participants: 3,
+        start_at: beginning_of_today + 1.day,
+        end_at: beginning_of_today + (1.day + 1.hour)
+      }
+    ])
+    reservations = Reservation.create!([
+      {
+        room: rooms(:ousetsu),
+        representative: "foo",
+        purpose: "bar",
+        num_participants: 3,
+        start_at: beginning_of_today,
+        end_at: beginning_of_today + 1.hour
+      },
+      {
+        room: rooms(:ousetsu),
+        representative: "foo",
+        purpose: "bar",
+        num_participants: 3,
+        start_at: beginning_of_today + 23.hour,
+        end_at: beginning_of_today + 1.day
+      }
+    ])
+
+    get :reservations
+
+    assert_response :success
+    assert_equal(reservations.length, json.length)
+
+    json.zip(reservations) do |j, r|
+      assert_equal("#{r.purpose}（#{r.representative}）", j["title"])
+      assert_equal(json_time(r.start_at), j["start"])
+      assert_equal(json_time(r.end_at), j["end"])
+      assert_equal(reservation_url(r), j["url"])
     end
   end
 
