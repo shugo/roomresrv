@@ -18,7 +18,7 @@ class CalendarController < ApplicationController
   private
   
   def set_rooms
-    @rooms = Room.includes(:office).order("office_id, id")
+    @rooms = Room.includes(:office).ordered
     rgb = [0, 24, 64]
     base = 0xff - rgb.max
     e = rgb.permutation.cycle

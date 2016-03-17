@@ -83,7 +83,7 @@ class ReservationsController < ApplicationController
     end
 
     def set_rooms
-      @rooms = Room.includes(:office).order("office_id, id")
+      @rooms = Room.includes(:office).ordered
     end
 
     def invoke_slack_webhook
