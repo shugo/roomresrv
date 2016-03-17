@@ -103,6 +103,8 @@ class CalendarControllerTest < ActionController::TestCase
     assert_equal(reservations.length + 17, json.length)
 
     json.take(reservations.length).zip(reservations) do |j, r|
+      assert_equal(r.room.name, j["room"])
+      assert_equal(r.room.office.name, j["office"])
       assert_equal("#{r.purpose}（#{r.representative}）", j["title"])
       assert_equal(json_time(r.start_at), j["start"])
       assert_equal(json_time(r.end_at), j["end"])
@@ -117,6 +119,8 @@ class CalendarControllerTest < ActionController::TestCase
       t += 7.days
     end
     json.drop(reservations.length).zip(ts).each do |j, t|
+      assert_equal(wr.room.name, j["room"])
+      assert_equal(wr.room.office.name, j["office"])
       assert_equal("#{wr.purpose}（#{wr.representative}）", j["title"])
       assert_equal(json_time(t), j["start"])
       assert_equal(json_time(t + 1.hour), j["end"])
@@ -169,6 +173,8 @@ class CalendarControllerTest < ActionController::TestCase
     assert_equal(reservations.length, json.length)
 
     json.zip(reservations) do |j, r|
+      assert_equal(r.room.name, j["room"])
+      assert_equal(r.room.office.name, j["office"])
       assert_equal("#{r.purpose}（#{r.representative}）", j["title"])
       assert_equal(json_time(r.start_at), j["start"])
       assert_equal(json_time(r.end_at), j["end"])

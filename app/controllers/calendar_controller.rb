@@ -36,6 +36,8 @@ class CalendarController < ApplicationController
                         end_at = reservation.end_at)
     {
       title: "#{reservation.purpose}（#{reservation.representative}）",
+      room: reservation.room.name,
+      office: reservation.room.office.name,
       start: start_at,
       end: end_at,
       color: @room_colors[reservation.room_id],
@@ -44,7 +46,7 @@ class CalendarController < ApplicationController
   end
 
   def no_repeat_reservations(start_time, end_time)
-    reservations = Reservation.no_repeat.where(
+    reservations = Reservation.includes(:room).no_repeat.where(
       "start_at < ? AND end_at > ?",
       end_time, start_time
     ).order("start_at, id").map { |reservation|
@@ -53,7 +55,7 @@ class CalendarController < ApplicationController
   end
 
   def weekly_reservations(start_time, end_time)
-    Reservation.weekly.where("repeating_mode = 1").
+    Reservation.includes(:room).weekly.where("repeating_mode = 1").
       order("start_at, id").flat_map { |reservation|
       offset = reservation.start_at.wday - start_time.wday
       if offset < 0

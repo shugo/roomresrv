@@ -41,7 +41,10 @@ class ReservationsController < ApplicationController
         format.json { render :show, status: :created, location: @reservation }
       else
         @invoke_slack_webhook = false
-        format.html { render :new }
+        format.html do
+          set_rooms
+          render :new
+        end
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
     end
@@ -60,7 +63,10 @@ class ReservationsController < ApplicationController
         format.json { render :show, status: :ok, location: @reservation }
       else
         @invoke_slack_webhook = false
-        format.html { render :edit }
+        format.html do
+          set_rooms
+          render :edit
+        end
         format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
     end
