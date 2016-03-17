@@ -92,16 +92,19 @@ class ReservationsController < ApplicationController
       @rooms = Room.includes(:office).ordered
     end
 
+    WDAYS = ["日", "月", "火", "水", "木", "金", "土"]
+
     def invoke_slack_webhook
       return if ENV["SLACK_WEBHOOK_URL"].blank? || !@invoke_slack_webhook
 
-      uri = URI.parse(ENV["SLACK_WEBHOOK_URL"])
-      time = @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M")
+      wday = WDAYS[@reservation.start_at.wday]
+      time = @reservation.start_at.strftime("%Y/%m/%d(#{wday}) %H:%M")
       room = @reservation.room.name_with_office
+      title = "#{@reservation.purpose}（#{@reservation.representative}）"
       url = reservation_url(@reservation)
       form = {
         "payload" => {
-          "text" => "#{time}に#{room}が予約されました: #{url}"
+          "text" => "#{time}に#{room}が予約されました: 「#{title}」 #{url}"
         }.to_json
       }
       res = Net::HTTP.post_form(URI.parse(ENV["SLACK_WEBHOOK_URL"]), form)
