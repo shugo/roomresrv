@@ -23,11 +23,11 @@ $ ->
 #            alert('ウィンドウリサイズイベント')
 #        ,
         dayClick: (date, jsEvent, view) ->
-            if ($('#calendar').fullCalendar('getView').name == 'agendaDay')
-                location.href = "/reservations/new?date=" + encodeURIComponent(date.format())
-            else
+            if ($('#calendar').fullCalendar('getView').name == 'month')
                 $('#calendar').fullCalendar('gotoDate', date)
                 $('#calendar').fullCalendar('changeView', 'agendaDay')
+            else
+                location.href = "/reservations/new?date=" + encodeURIComponent(date.format())
         ,
         defaultView: 'month',
         allDaySlot: true,
