@@ -2,6 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+$.cookie.defaults.path = "/"
+
 $ ->
     $('#calendar').fullCalendar({
         header: {
@@ -65,5 +67,11 @@ $ ->
             url: "/calendar/reservations",
             error: ->
                 alert("予約データの取得に失敗しました")
-        }
+        },
+        defaultView: $.cookie("defaultView") || "month",
+        defaultDate: $.cookie("defaultDate"),
+        viewRender: (view, element) ->
+            $.cookie("defaultView", view.name)
+            $.cookie("defaultDate",
+                     $('#calendar').fullCalendar('getDate').format())
     })

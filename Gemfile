@@ -34,6 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'pg'
 gem 'unicorn'
+gem 'jquery-cookie-rails'
 gem 'jquery-turbolinks'
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'

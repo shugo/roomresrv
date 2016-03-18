@@ -1,7 +1,26 @@
 class CalendarController < ApplicationController
   before_action :set_rooms, only: [:index, :reservations]
 
+  AVAILABLE_VIEWS = ["month", "agendaWeek", "agendaDay"]
+
   def index
+    if params[:view]
+      if AVAILABLE_VIEWS.include?(params[:view])
+        cookies[:defaultView] = params[:view]
+      else
+        flash[:notice] = "viewパラメータの値が不正です: #{params[:view]}"
+      end
+    end
+    if params[:date]
+      case params[:date]
+      when /\A\d{4}-\d{2}-\d{2}\z/
+        cookies[:defaultDate] = params[:date]
+      when "today"
+        cookies[:defaultDate] = Date.today.iso8601
+      else
+        flash[:notice] = "dateパラメータの値が不正です: #{params[:date]}"
+      end
+    end
   end
 
   def help

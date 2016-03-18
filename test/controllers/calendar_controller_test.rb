@@ -6,6 +6,43 @@ class CalendarControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should set the defaultView cookie value" do
+    get :index, view: "agendaDay"
+    assert_response :success
+
+    assert_equal("agendaDay", cookies[:defaultView])
+  end
+
+  test "should not set a invalid value to defaultView" do
+    get :index, view: "noSuchView"
+    assert_response :success
+
+    assert_equal(nil, cookies[:defaultView])
+    assert_equal("viewパラメータの値が不正です: noSuchView", flash[:notice])
+  end
+
+  test "should set the defaultDate cookie value" do
+    get :index, date: "2016-04-01"
+    assert_response :success
+
+    assert_equal("2016-04-01", cookies[:defaultDate])
+  end
+
+  test "should set today to defaultDate" do
+    get :index, date: "today"
+    assert_response :success
+
+    assert_equal(Date.today.iso8601, cookies[:defaultDate])
+  end
+
+  test "should not set a invalid value to defaultDate" do
+    get :index, date: "invalid"
+    assert_response :success
+
+    assert_equal(nil, cookies[:defaultDate])
+    assert_equal("dateパラメータの値が不正です: invalid", flash[:notice])
+  end
+
   test "should get reservations when start and end is given" do
     Reservation.create!([
       {
