@@ -71,7 +71,7 @@ $ ->
         defaultView: $.cookie("defaultView") || "month",
         defaultDate: $.cookie("defaultDate"),
         viewRender: (view, element) ->
-            $.cookie("defaultView", view.name)
+            $.cookie("defaultView", view.name, {expires: 30})
             $.cookie("defaultDate",
                      $('#calendar').fullCalendar('getDate').format())
     })
