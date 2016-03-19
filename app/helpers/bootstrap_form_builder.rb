@@ -18,6 +18,12 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
           &block)
   end
 
+  def collection_select(method, collection, value_method, text_method,
+                        options = {}, html_options = {})
+    super(method, collection, value_method, text_method, options,
+          html_options.merge(class: "form-control select"))
+  end
+
   def datetime_select(method, options = {}, html_options = {})
     content_tag("div",
                 super(method, options,
