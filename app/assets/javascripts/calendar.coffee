@@ -33,17 +33,6 @@ $ ->
             center: 'title',
             right: 'month agendaWeek agendaDay'
         },
-#        theme: false,
-#        firstDay: 0,
-#        weekends: true,
-#        weekMode: 'fixed',
-#        weekNumbers: false,
-#        viewDisplay: (view) ->
-#            alert('ビュー表示イベント ' + view.title)
-#        ,
-#        windowResize: (view) ->
-#            alert('ウィンドウリサイズイベント')
-#        ,
         dayClick: (date, jsEvent, view) ->
             if $('#calendar').fullCalendar('getView').name == 'month'
                 $('#calendar').fullCalendar('gotoDate', date)
@@ -55,9 +44,6 @@ $ ->
         allDaySlot: true,
         allDayText: '終日',
         axisFormat: 'H:mm',
-#        slotMinutes: 15,
-#        snapMinutes: 15,
-#        firstHour: 9,
         minTime: '08:00',
         maxTime: '24:00',
         timeFormat: 'H:mm',
@@ -81,10 +67,6 @@ $ ->
         monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
         dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
         dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
-#        selectable: true,
-#        selectHelper: true,
-#        unselectAuto: true,
-#        unselectCancel: '',
         events: {
             url: "/calendar/reservations",
             error: ->
