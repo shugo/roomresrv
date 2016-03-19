@@ -6,7 +6,9 @@ $.cookie.defaults.path = "/"
 
 $ ->
     eventEdited = (event, delta, revertFunc, jsEvent, ui, view) ->
-        if !confirm("「" + event.title + "」の時間を変更しますか？")
+        time = $.fullCalendar.formatRange(event.start, event.end,
+                                          'YYYY-MM-DD HH:mm')
+        if !confirm("「" + event.title + "」を" + time + "に変更しますか？")
             revertFunc()
             return
         $.ajax({
