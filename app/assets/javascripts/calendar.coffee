@@ -6,6 +6,9 @@ $.cookie.defaults.path = "/"
 
 $ ->
     eventEdited = (event, delta, revertFunc, jsEvent, ui, view) ->
+        if !confirm("予約の時間を変更しますか？")
+            revertFunc()
+            return
         $.ajax({
             url: event.url,
             method: "PATCH",
@@ -38,7 +41,7 @@ $ ->
 #            alert('ウィンドウリサイズイベント')
 #        ,
         dayClick: (date, jsEvent, view) ->
-            if ($('#calendar').fullCalendar('getView').name == 'month')
+            if $('#calendar').fullCalendar('getView').name == 'month'
                 $('#calendar').fullCalendar('gotoDate', date)
                 $('#calendar').fullCalendar('changeView', 'agendaDay')
             else
