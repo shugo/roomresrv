@@ -18,7 +18,7 @@ class RoomsControllerTest < ActionController::TestCase
 
   test "should create room" do
     assert_difference('Room.count') do
-      post :create, room: { name: @room.name, office_id: @room.office_id }
+      post :create, room: { name: @room.name + "2", office_id: @room.office_id }
     end
 
     assert_redirected_to room_path(assigns(:room))

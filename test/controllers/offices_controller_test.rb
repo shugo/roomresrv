@@ -18,7 +18,7 @@ class OfficesControllerTest < ActionController::TestCase
 
   test "should create office" do
     assert_difference('Office.count') do
-      post :create, office: { name: @office.name }
+      post :create, office: { name: @office.name + "2" }
     end
 
     assert_redirected_to office_path(assigns(:office))
