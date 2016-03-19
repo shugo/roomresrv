@@ -41,6 +41,7 @@ gem 'momentjs-rails'
 gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails'
+gem 'bootbox-rails'
 gem 'i18n_generators'
 gem 'redcarpet'
 

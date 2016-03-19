@@ -18,4 +18,5 @@
 //= require turbolinks
 //= require moment
 //= require fullcalendar
+//= require bootbox
 //= require_tree .

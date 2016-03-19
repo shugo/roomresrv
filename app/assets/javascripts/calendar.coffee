@@ -8,23 +8,25 @@ $ ->
     eventEdited = (event, delta, revertFunc, jsEvent, ui, view) ->
         time = $.fullCalendar.formatRange(event.start, event.end,
                                           'YYYY-MM-DD HH:mm')
-        if !confirm("「" + event.title + "」を" + time + "に変更しますか？")
-            revertFunc()
-            return
-        $.ajax({
-            url: event.url,
-            method: "PATCH",
-            dataType: "json",
-            data: {
-                      reservation: {
-                          start_at: event.start.format(),
-                          end_at: event.end.format()
-                      }
-                  }
-        })
-            .error (xhr, status, suject) ->
+        msg = "「" + event.title + "」を" + time + "に変更しますか？"
+        bootbox.confirm msg, (result) ->
+            if result
+                $.ajax({
+                    url: event.url,
+                    method: "PATCH",
+                    dataType: "json",
+                    data: {
+                              reservation: {
+                                  start_at: event.start.format(),
+                                  end_at: event.end.format()
+                              }
+                          }
+                })
+                    .error (xhr, status, suject) ->
+                        revertFunc()
+                        bootbox.alert("時間を変更できませんでした。")
+            else
                 revertFunc()
-                alert("時間を変更できませんでした。")
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
