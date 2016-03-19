@@ -1,5 +1,5 @@
-<%= form_for @reservation, :html => { :class => "form-horizontal reservation" },
-  :builder => BootstrapFormBuilder do |f| %>
+<%= bootstrap_form_for @reservation,
+      :html => { :class => "form-horizontal reservation" } do |f| %>
 
   <%= f.hidden_field :lock_version %>
 

@@ -1,5 +1,5 @@
-<%= form_for @room, :html => { :class => "form-horizontal room" },
-  :builder => BootstrapFormBuilder do |f| %>
+<%= bootstrap_form_for @room,
+      :html => { :class => "form-horizontal room" } do |f| %>
 
   <%= f.hidden_field :lock_version %>
 
