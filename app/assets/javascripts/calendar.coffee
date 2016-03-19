@@ -6,7 +6,7 @@ $.cookie.defaults.path = "/"
 
 $ ->
     eventEdited = (event, delta, revertFunc, jsEvent, ui, view) ->
-        if !confirm("予約の時間を変更しますか？")
+        if !confirm("「" + event.title + "」の時間を変更しますか？")
             revertFunc()
             return
         $.ajax({
