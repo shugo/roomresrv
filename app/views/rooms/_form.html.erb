@@ -1,36 +1,15 @@
-<%= form_for @room, :html => { :class => "form-horizontal room" } do |f| %>
-
-  <% if @room.errors.any? %>
-    <div id="error_expl" class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@room.errors.count, "error") %> prohibited this room from being saved:</h3>
-      </div>
-      <div class="panel-body">
-        <ul>
-        <% @room.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+<%= form_for @room, :html => { :class => "form-horizontal room" },
+  :builder => BootstrapFormBuilder do |f| %>
 
   <%= f.hidden_field :lock_version %>
 
-  <div class="form-group">
-    <%= f.label :office_id, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.collection_select :office_id, Office.all, :id, :name %>
-    </div>
-    <%=f.error_span(:office_id) %>
-  </div>
-  <div class="form-group">
-    <%= f.label :name, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.text_field :name, :class => 'form-control' %>
-    </div>
-    <%=f.error_span(:name) %>
-  </div>
+  <%= f.form_group(:office_id) do %>
+    <%= f.collection_select :office_id, Office.all, :id, :name,
+                            {prompt: false}, {class: 'form-control'} %>
+  <% end %>
+  <%= f.form_group(:name) do %>
+    <%= f.text_field :name, :class => 'form-control' %>
+  <% end %>
 
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">

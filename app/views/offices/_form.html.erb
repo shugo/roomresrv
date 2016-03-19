@@ -1,29 +1,11 @@
-<%= form_for @office, :html => { :class => "form-horizontal office" } do |f| %>
-
-  <% if @office.errors.any? %>
-    <div id="error_expl" class="panel panel-danger">
-      <div class="panel-heading">
-        <h3 class="panel-title"><%= pluralize(@office.errors.count, "error") %> prohibited this office from being saved:</h3>
-      </div>
-      <div class="panel-body">
-        <ul>
-        <% @office.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-        </ul>
-      </div>
-    </div>
-  <% end %>
+<%= form_for @office, :html => { :class => "form-horizontal office" },
+  :builder => BootstrapFormBuilder do |f| %>
 
   <%= f.hidden_field :lock_version %>
 
-  <div class="form-group">
-    <%= f.label :name, :class => 'control-label col-lg-2' %>
-    <div class="col-lg-10">
-      <%= f.text_field :name, :class => 'form-control' %>
-    </div>
-    <%=f.error_span(:name) %>
-  </div>
+  <%= f.form_group(:name) do %>
+    <%= f.text_field :name, :class => 'form-control' %>
+  <% end %>
 
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
