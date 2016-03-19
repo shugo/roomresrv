@@ -12,6 +12,12 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
                 class: classes.join(" ")) + "\n"
   end
 
+  def select(method, choices = nil, options = {}, html_options = {}, &block)
+    super(method, choices, options,
+          html_options.merge(class: "form-control select"),
+          &block)
+  end
+
   def datetime_select(method, options = {}, html_options = {})
     content_tag("div",
                 super(method, options,

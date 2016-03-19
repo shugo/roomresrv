@@ -23,8 +23,7 @@
     <%= f.datetime_select :end_at, use_month_numbers: true, minute_step: 5 %>
   <% end %>
   <%= f.form_group(:repeating_mode) do %>
-    <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert,
-                 {prompt: false}, class: 'form-control' %>
+    <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
   <% end %>
 
   <div class="form-group">
