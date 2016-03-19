@@ -5,6 +5,21 @@
 $.cookie.defaults.path = "/"
 
 $ ->
+    eventEdited = (event, delta, revertFunc, jsEvent, ui, view) ->
+        $.ajax({
+            url: event.url,
+            method: "PATCH",
+            dataType: "json",
+            data: {
+                      reservation: {
+                          start_at: event.start.format(),
+                          end_at: event.end.format()
+                      }
+                  }
+        })
+            .error (xhr, status, suject) ->
+                revertFunc()
+                alert("時間を変更できませんでした。")
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
@@ -75,6 +90,9 @@ $ ->
             $.cookie("defaultDate",
                      $('#calendar').fullCalendar('getDate').format())
         ,
-        eventRender: (event, element) ->
-            $(element).tooltip({title: event.title})
+        editable: true,
+        eventDrop: eventEdited,
+        eventResize: eventEdited
     })
+
+# vim: set expandtab :
