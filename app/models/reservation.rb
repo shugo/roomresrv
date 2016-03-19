@@ -3,10 +3,12 @@ class Reservation < ActiveRecord::Base
 
   enum repeating_mode: { no_repeat: 0, weekly: 1 }
 
+  validates :room_id, presence: true
   validates :representative, presence: true
   validates :purpose, presence: true
   validates :start_at, presence: true
   validates :end_at, presence: true
+  validates :repeating_mode, presence: true
   validate :check_schedule_conflict
 
   REPEATING_MODE_LABELS = {

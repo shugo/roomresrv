@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160319152036) do
+ActiveRecord::Schema.define(version: 20160319161725) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "offices", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",                     null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "lock_version", default: 0, null: false
@@ -26,12 +26,12 @@ ActiveRecord::Schema.define(version: 20160319152036) do
   add_index "offices", ["name"], name: "index_offices_on_name", unique: true, using: :btree
 
   create_table "reservations", force: :cascade do |t|
-    t.integer  "room_id"
-    t.string   "representative"
-    t.string   "purpose"
+    t.integer  "room_id",                      null: false
+    t.string   "representative",               null: false
+    t.string   "purpose",                      null: false
     t.string   "num_participants"
-    t.datetime "start_at"
-    t.datetime "end_at"
+    t.datetime "start_at",                     null: false
+    t.datetime "end_at",                       null: false
     t.datetime "created_at",                   null: false
     t.datetime "updated_at",                   null: false
     t.integer  "repeating_mode",   default: 0, null: false
@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 20160319152036) do
   add_index "reservations", ["start_at"], name: "index_reservations_on_start_at", using: :btree
 
   create_table "rooms", force: :cascade do |t|
-    t.integer  "office_id"
-    t.string   "name"
+    t.integer  "office_id",                null: false
+    t.string   "name",                     null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.integer  "lock_version", default: 0, null: false
