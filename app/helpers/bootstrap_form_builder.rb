@@ -12,6 +12,10 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
                 class: classes.join(" ")) + "\n"
   end
 
+  def text_field(method, options = {})
+    super(method, options.merge(class: "form-control select"))
+  end
+
   def select(method, choices = nil, options = {}, html_options = {}, &block)
     super(method, choices, options,
           html_options.merge(class: "form-control select"),

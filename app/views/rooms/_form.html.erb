@@ -4,11 +4,10 @@
   <%= f.hidden_field :lock_version %>
 
   <%= f.form_group(:office_id) do %>
-    <%= f.collection_select :office_id, Office.all, :id, :name,
-                            {prompt: false}, {class: 'form-control'} %>
+    <%= f.collection_select :office_id, Office.all, :id, :name %>
   <% end %>
   <%= f.form_group(:name) do %>
-    <%= f.text_field :name, :class => 'form-control' %>
+    <%= f.text_field :name %>
   <% end %>
 
   <div class="form-group">

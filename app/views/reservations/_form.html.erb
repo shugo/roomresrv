@@ -7,13 +7,13 @@
     <%= f.collection_select :room_id, @rooms, :id, :name_with_office %>
   <% end %>
   <%= f.form_group(:representative) do %>
-    <%= f.text_field :representative, :class => 'form-control' %>
+    <%= f.text_field :representative %>
   <% end %>
   <%= f.form_group(:purpose) do %>
-    <%= f.text_field :purpose, :class => 'form-control' %>
+    <%= f.text_field :purpose %>
   <% end %>
   <%= f.form_group(:num_participants) do %>
-    <%= f.text_field :num_participants, :class => 'form-control' %>
+    <%= f.text_field :num_participants %>
   <% end %>
   <%= f.form_group(:start_at) do %>
     <%= f.datetime_select :start_at, use_month_numbers: true, minute_step: 5 %>
