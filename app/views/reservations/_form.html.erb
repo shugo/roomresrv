@@ -16,11 +16,16 @@
     <%= f.text_field :num_participants %>
   <% end %>
   <%= f.form_group(:start_at) do %>
-    <%= f.datetime_select :start_at, use_month_numbers: true, minute_step: 5 %>
+    <%= f.datetime_select :start_at, {use_month_numbers: true, minute_step: 5},
+                          onchange: 'reservationStartAtChanged()' %>
   <% end %>
   <%= f.form_group(:end_at) do %>
-    <%= f.datetime_select :end_at, use_month_numbers: true, minute_step: 5 %>
+    <%= f.datetime_select :end_at, {use_month_numbers: true, minute_step: 5},
+                          onchange: 'reservationEndAtChanged()' %>
   <% end %>
+  <script type="text/javascript">
+    reservationEndAtChanged()
+  </script>
   <%= f.form_group(:repeating_mode) do %>
     <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
   <% end %>
