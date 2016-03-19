@@ -74,4 +74,7 @@ $ ->
             $.cookie("defaultView", view.name, {expires: 30})
             $.cookie("defaultDate",
                      $('#calendar').fullCalendar('getDate').format())
+        ,
+        eventRender: (event, element) ->
+            $(element).tooltip({title: event.title})
     })
