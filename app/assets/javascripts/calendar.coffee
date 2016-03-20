@@ -35,9 +35,12 @@ $ ->
                 })
                     .error (xhr, status, suject) ->
                         revertFunc()
-                        errors = $.parseJSON(xhr.responseText)
-                        bootbox.alert("日時を変更できませんでした<br/>" +
-                                      formatErrors(errors))
+                        if xhr.status == 422
+                            errors = $.parseJSON(xhr.responseText)
+                            bootbox.alert("日時を変更できませんでした<br/>" +
+                                          formatErrors(errors))
+                        else
+                            bootbox.alert("日時を変更できませんでした")
             else
                 revertFunc()
 
