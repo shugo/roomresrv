@@ -2,13 +2,24 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$.cookie.defaults.path = "/"
-
 $ ->
+    $.cookie.defaults.path = "/"
+
+    h = (s) ->
+        jQuery('<div>').text(s).html()
+
+    attrNames = {
+        start_at: "開始日時",
+        end_at: "終了日時"
+    }
+
+    formatErrors = (errors) ->
+        (es.map((e) -> h(attrNames[a] + e)) for a, es of errors).join("<br/>")
+
     eventEdited = (event, delta, revertFunc, jsEvent, ui, view) ->
         time = $.fullCalendar.formatRange(event.start, event.end,
                                           'YYYY-MM-DD HH:mm')
-        msg = "「" + event.title + "」を" + time + "に変更しますか？"
+        msg = "「#{h(event.title)}」の日時を#{h(time)}に変更しますか？"
         bootbox.confirm msg, (result) ->
             if result
                 $.ajax({
@@ -24,9 +35,12 @@ $ ->
                 })
                     .error (xhr, status, suject) ->
                         revertFunc()
-                        bootbox.alert("時間を変更できませんでした。")
+                        errors = $.parseJSON(xhr.responseText)
+                        bootbox.alert("日時を変更できませんでした<br/>" +
+                                      formatErrors(errors))
             else
                 revertFunc()
+
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
