@@ -1,18 +1,16 @@
 language: ruby
-
 rvm:
-  - 2.3.0
-
-bundler_args: --without development --deployment
-
+- 2.3.0
+bundler_args: "--without development --deployment"
 cache: bundler
-
 before_script:
-  - cp config/database.postgresql.yml config/database.yml
-  - bundle exec rake db:create  
-  - bundle exec rake db:migrate  
-
+- cp config/database.postgresql.yml config/database.yml
+- bundle exec rake db:create
+- bundle exec rake db:migrate
 script:
-  - bundle exec rake test
-  - bundle exec brakeman
-  - bundle exec bundle-audit check --update
+- bundle exec rake test
+- bundle exec brakeman
+- bundle exec bundle-audit check --update
+notifications:
+  slack:
+    secure: RhkuEkuXztqP13jCowSwW/s8Ap5B1TTLiCuTfUtbeTEHAQoABMRMPPBTShQHLPiAEaxek4eGGVitizOLzr6jO3SSUgcZMhIeUCxKcq3CXXJLOdwoR2wQQlmiJJpGjTbiKQFYF3GV19dD5SX2+57jcJB+/jEwR2KFk7Z8e7D2xZga54FY0tbgeYdRS+l2oIezK4eBX1mJiGcwXXkXk8xRi8/aZ651TroKkbng1fuPB7B+h1qG225etBAV9gPod2/saRcSZajQlia7zMQdi2UrCkhcvfqRBV7QUoEPLYvUT8cR4A1yqpHINl93EqtZtGWY3NZJ4dRGrqlui4k3XhKa4zJN1ycw4Tu89mOp46ky+5je2Tmw+qhp70jJlNuzf/cZkcZZFTKhJ/M/cGzuQ1C+bfCS+aghDvg2a436jFGdkQH9A00rTUCTgl/AP7evOs6ZroV/f7KoPNnESUeZ437/piahg0h1hDrO9twMR/+30aczINqGYhRN7SfgSOT8rqyXN2H3vt0oEaZhbW8c3apFdX7lgZeciMKWGhGCCnNXcU2LjqoR1vqKesuzl3lNSjqoR6fVkKVTdxzMqtRSZLJessa8kB1vK0yQ/iYak9sSR9gZPMRSmNXxDu18qxg7XKRBoRFfc8967vkmkRUE1yg7lQPHsW4//PsFIz8IStuxKDw=
