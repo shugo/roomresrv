@@ -1,4 +1,6 @@
-unless Office.where(name: "松江本社").first
+if Office.where(name: "松江本社").first
+  puts "Do nothing"
+else
   matsue = Office.create!(name: "松江本社")
   tokyo = Office.create!(name: "東京支社")
   Room.create!([
@@ -8,6 +10,4 @@ unless Office.where(name: "松江本社").first
     {office: matsue, name: "小部屋隅テーブル"},
     {office: tokyo, name: "会議室"}
   ])
-else
-  puts "Do nothing"
 end
