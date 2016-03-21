@@ -58,8 +58,7 @@ $ ->
                 location.href = "/reservations/new?date=" + encodeURIComponent(date.format())
         ,
         defaultView: 'month',
-        allDaySlot: true,
-        allDayText: '終日',
+        allDaySlot: false,
         axisFormat: 'H:mm',
         minTime: '08:00',
         maxTime: '24:00',
