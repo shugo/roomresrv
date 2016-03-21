@@ -57,7 +57,6 @@ $ ->
             else
                 location.href = "/reservations/new?date=" + encodeURIComponent(date.format())
         ,
-        defaultView: 'month',
         allDaySlot: false,
         axisFormat: 'H:mm',
         minTime: '08:00',
