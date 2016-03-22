@@ -60,6 +60,7 @@ class CalendarController < ApplicationController
       office: reservation.room.office.name,
       start: start_at,
       end: end_at,
+      repeatingMode: reservation.repeating_mode,
       color: @room_colors[reservation.room_id],
       url: url_for(reservation)
     }

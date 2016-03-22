@@ -19,3 +19,15 @@
 .fc-sat {
     color: #0000cc;
 }
+
+.fc-time {
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.repeat-weekly .fc-time:after {
+    content: " \f021";
+}

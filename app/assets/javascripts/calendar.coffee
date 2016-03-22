@@ -87,6 +87,10 @@ $ ->
             error: ->
                 alert("予約データの取得に失敗しました")
         },
+        eventRender: (event, element) ->
+            if event.repeatingMode == "weekly"
+                element.addClass("repeat-weekly")
+        ,
         defaultView: $.cookie("defaultView") || "month",
         defaultDate: $.cookie("defaultDate"),
         viewRender: (view, element) ->
