@@ -89,7 +89,8 @@ $ ->
         },
         eventRender: (event, element) ->
             if event.repeatingMode == "weekly"
-                element.addClass("repeat-weekly")
+                 element.find(".fc-time").after('<i class="fa fa-refresh"></i>')
+            element
         ,
         defaultView: $.cookie("defaultView") || "month",
         defaultDate: $.cookie("defaultDate"),
