@@ -89,7 +89,10 @@ $ ->
         },
         eventRender: (event, element) ->
             if event.repeatingMode == "weekly"
-                 element.find(".fc-time").after('<i class="fa fa-refresh"></i>')
+                 e = element.find(".fc-time")
+                 if e.prop("tagName") != "SPAN"
+                     e = e.find("span")
+                 e.after('<i class="fa fa-refresh"></i>')
             element
         ,
         defaultView: $.cookie("defaultView") || "month",
