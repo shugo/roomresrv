@@ -98,6 +98,9 @@ $ ->
         defaultView: $.cookie("defaultView") || "month",
         defaultDate: $.cookie("defaultDate"),
         viewRender: (view, element) ->
+            element.find(".fc-day-number").each ->
+                if JapaneseHolidays.isHoliday(new Date($(this).attr("data-date")))
+                    $(this).addClass("fc-holiday")
             $.cookie("defaultView", view.name, {expires: 30})
             $.cookie("defaultDate",
                      $('#calendar').fullCalendar('getDate').format())
