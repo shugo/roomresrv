@@ -5,6 +5,8 @@
 $ ->
     $.cookie.defaults.path = "/"
 
+    isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
+
     h = (s) ->
         jQuery('<div>').text(s).html()
 
@@ -64,7 +66,7 @@ $ ->
         timeFormat: 'H:mm',
         columnFormat: {
             month: 'ddd',
-            week: "M/D（ddd）",
+            week: if isMobile then "ddd" else "M/D（ddd）",
             day: "M/D（ddd）"
         },
         titleFormat: {

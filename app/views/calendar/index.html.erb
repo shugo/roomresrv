@@ -1,3 +1,4 @@
+<% unless request.from_smartphone? %>
 <div id="room-legend">
   <% @rooms.each do |room| %>
     <span class="room" style="background-color: <%= @room_colors[room.id] %>">
@@ -5,4 +6,5 @@
     </span>
   <% end %>
 </div>
+<% end %>
 <div id="calendar"></div>

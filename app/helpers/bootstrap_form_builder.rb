@@ -1,10 +1,10 @@
 class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
   def form_group(attribute, &block)
-    classes = ["form-group", "foo"]
+    classes = ["form-group"]
     if errors_on?(attribute)
       classes << "has-error"
     end
-    label_classes = ["control-label", "col-lg-2"]
+    label_classes = ["control-label", "col-lg-2 col-xs-3"]
     required = object.class.validators_on(attribute).any? { |v|
       v.kind == :presence
     }
@@ -15,7 +15,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
                 label(attribute, class: label_classes.join(" ")) + "\n" +
                 content_tag("div",
                             @template.capture(self, &block),
-                            class: "col-lg-6") + "\n" + error_span(attribute),
+                            class: "col-lg-6 col-xs-9") + "\n" + error_span(attribute),
                 class: classes.join(" ")) + "\n"
   end
 
@@ -36,9 +36,11 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def datetime_select(method, options = {}, html_options = {})
-    content_tag("div",
-                super(method, options,
-                      html_options.merge(class: "form-control datetime")),
-                class: "form-inline")
+    if @template.request.from_smartphone?
+      html_opts = html_options
+    else
+      html_opts = html_options.merge(class: "form-control datetime")
+    end
+    content_tag("div", super(method, options, html_opts), class: "form-inline")
   end
 end

@@ -44,6 +44,7 @@ gem 'twitter-bootstrap-rails'
 gem 'bootbox-rails'
 gem 'i18n_generators'
 gem 'redcarpet'
+gem 'rack-user_agent'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

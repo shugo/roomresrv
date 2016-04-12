@@ -1,5 +1,5 @@
 class CalendarController < ApplicationController
-  before_action :set_rooms, only: [:index, :reservations]
+  before_action :set_rooms, only: [:reservations]
 
   AVAILABLE_VIEWS = ["month", "agendaWeek", "agendaDay"]
 
@@ -20,6 +20,9 @@ class CalendarController < ApplicationController
       else
         flash[:notice] = "dateパラメータの値が不正です: #{params[:date]}"
       end
+    end
+    unless request.from_smartphone?
+      set_rooms
     end
   end
 
