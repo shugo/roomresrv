@@ -18,7 +18,7 @@ class ReservationsControllerTest < ActionController::TestCase
 
   test "should create reservation" do
     assert_difference('Reservation.count') do
-      post :create, reservation: { end_at: Time.now + 1.hour, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: Time.now }
+      post :create, params: { reservation: { end_at: Time.now + 1.hour, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: Time.now } }
     end
 
     assert_redirected_to reservation_path(assigns(:reservation))
@@ -26,36 +26,36 @@ class ReservationsControllerTest < ActionController::TestCase
   end
 
   test "should show reservation" do
-    get :show, id: @reservation
+    get :show, params: { id: @reservation }
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @reservation
+    get :edit, params: { id: @reservation }
     assert_response :success
   end
 
   test "should update reservation without webhook" do
-    patch :update, id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: @reservation.start_at }
+    patch :update, params: { id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: @reservation.start_at } }
     assert_redirected_to reservation_path(assigns(:reservation))
     assert_equal(false, assigns(:invoke_slack_webhook))
   end
 
   test "should update reservation with webhook when the room is changed" do
-    patch :update, id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: rooms(:kitchen), start_at: @reservation.start_at }
+    patch :update, params: { id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: rooms(:kitchen), start_at: @reservation.start_at } }
     assert_redirected_to reservation_path(assigns(:reservation))
     assert_equal(true, assigns(:invoke_slack_webhook))
   end
 
   test "should update reservation with webhook when the start_at is changed" do
-    patch :update, id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: @reservation.start_at + 1.hour }
+    patch :update, params: { id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: @reservation.room_id, start_at: @reservation.start_at + 1.hour } }
     assert_redirected_to reservation_path(assigns(:reservation))
     assert_equal(true, assigns(:invoke_slack_webhook))
   end
 
   test "should destroy reservation" do
     assert_difference('Reservation.count', -1) do
-      delete :destroy, id: @reservation
+      delete :destroy, params: { id: @reservation }
     end
 
     assert_redirected_to calendar_index_path

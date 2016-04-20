@@ -1,4 +1,4 @@
-class Reservation < ActiveRecord::Base
+class Reservation < ApplicationRecord
   belongs_to :room
 
   enum repeating_mode: { no_repeat: 0, weekly: 1 }

@@ -7,14 +7,14 @@ class CalendarControllerTest < ActionController::TestCase
   end
 
   test "should set the defaultView cookie value" do
-    get :index, view: "agendaDay"
+    get :index, params: { view: "agendaDay" }
     assert_response :success
 
     assert_equal("agendaDay", cookies[:defaultView])
   end
 
   test "should not set a invalid value to defaultView" do
-    get :index, view: "noSuchView"
+    get :index, params: { view: "noSuchView" }
     assert_response :success
 
     assert_equal(nil, cookies[:defaultView])
@@ -22,21 +22,21 @@ class CalendarControllerTest < ActionController::TestCase
   end
 
   test "should set the defaultDate cookie value" do
-    get :index, date: "2016-04-01"
+    get :index, params: { date: "2016-04-01" }
     assert_response :success
 
     assert_equal("2016-04-01", cookies[:defaultDate])
   end
 
   test "should set today to defaultDate" do
-    get :index, date: "today"
+    get :index, params: { date: "today" }
     assert_response :success
 
     assert_equal(Date.today.iso8601, cookies[:defaultDate])
   end
 
   test "should not set a invalid value to defaultDate" do
-    get :index, date: "invalid"
+    get :index, params: { date: "invalid" }
     assert_response :success
 
     assert_equal(nil, cookies[:defaultDate])
@@ -132,9 +132,10 @@ class CalendarControllerTest < ActionController::TestCase
       repeating_mode: :weekly
     })
 
-    get :reservations,
+    get :reservations, params: {
       start: Time.mktime(2015, 11, 1, 0, 0, 0),
       end: Time.mktime(2016, 3, 1, 0, 0, 0)
+    }
 
     assert_response :success
     assert_equal(reservations.length + 17, json.length)

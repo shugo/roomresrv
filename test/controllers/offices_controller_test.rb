@@ -18,24 +18,24 @@ class OfficesControllerTest < ActionController::TestCase
 
   test "should create office" do
     assert_difference('Office.count') do
-      post :create, office: { name: @office.name + "2" }
+      post :create, params: { office: { name: @office.name + "2" } }
     end
 
     assert_redirected_to office_path(assigns(:office))
   end
 
   test "should show office" do
-    get :show, id: @office
+    get :show, params: { id: @office }
     assert_response :success
   end
 
   test "should get edit" do
-    get :edit, id: @office
+    get :edit, params: { id: @office }
     assert_response :success
   end
 
   test "should update office" do
-    patch :update, id: @office, office: { name: @office.name }
+    patch :update, params: { id: @office, office: { name: @office.name } }
     assert_redirected_to office_path(assigns(:office))
   end
 
@@ -45,7 +45,7 @@ class OfficesControllerTest < ActionController::TestCase
     end
     @office.rooms.destroy_all
     assert_difference('Office.count', -1) do
-      delete :destroy, id: @office
+      delete :destroy, params: { id: @office }
     end
 
     assert_redirected_to offices_path

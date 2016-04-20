@@ -1,4 +1,4 @@
-class Room < ActiveRecord::Base
+class Room < ApplicationRecord
   belongs_to :office
   has_many :reservations
   validates :office_id, presence: true
