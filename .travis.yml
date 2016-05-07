@@ -7,9 +7,10 @@ before_script:
 - cp config/database.postgresql.yml config/database.yml
 - bundle exec rake db:create
 - bundle exec rake db:migrate
+- gem install brakeman
 script:
 - bundle exec rake test
-- bundle exec brakeman
+- brakeman
 - bundle exec bundle-audit check --update
 notifications:
   slack:
