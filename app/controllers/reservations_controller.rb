@@ -1,6 +1,7 @@
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:show, :edit, :update, :destroy]
   before_action :set_rooms, only: [:new, :edit]
+  after_action :remember_fields, only: [:create, :update]
   after_action :invoke_slack_webhook, only: [:create, :update]
 
   # GET /reservations
@@ -17,6 +18,12 @@ class ReservationsController < ApplicationController
   # GET /reservations/new
   def new
     @reservation = Reservation.new
+    if session[:representative]
+      @reservation.representative = session[:representative]
+    end
+    if session[:room_id]
+      @reservation.room_id = session[:room_id]
+    end
     if params[:date]
       @reservation.start_at = Time.parse(params[:date])
     else
@@ -93,6 +100,13 @@ class ReservationsController < ApplicationController
     end
 
     WDAYS = ["日", "月", "火", "水", "木", "金", "土"]
+
+    def remember_fields
+      if @reservation.persisted? && !@reservation.changed?
+        session[:representative] = @reservation.representative
+        session[:room_id] = @reservation.room_id
+      end
+    end
 
     def invoke_slack_webhook
       return if ENV["SLACK_WEBHOOK_URL"].blank? || !@invoke_slack_webhook

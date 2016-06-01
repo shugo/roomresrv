@@ -14,6 +14,22 @@ class ReservationsControllerTest < ActionController::TestCase
   test "should get new" do
     get :new
     assert_response :success
+
+    r = assigns(:reservation)
+    assert_equal(nil, r.representative)
+    assert_equal(nil, r.room_id)
+  end
+
+  test "should get new with session data" do
+    session[:representative] = "John Smith"
+    session[:room_id] = rooms(:kitchen).id
+
+    get :new
+    assert_response :success
+
+    r = assigns(:reservation)
+    assert_equal("John Smith", r.representative)
+    assert_equal(rooms(:kitchen).id, r.room_id)
   end
 
   test "should create reservation" do
@@ -23,6 +39,8 @@ class ReservationsControllerTest < ActionController::TestCase
 
     assert_redirected_to reservation_path(assigns(:reservation))
     assert_equal(true, assigns(:invoke_slack_webhook))
+    assert_equal(@reservation.representative, session[:representative])
+    assert_equal(@reservation.room_id, session[:room_id])
   end
 
   test "should show reservation" do
@@ -45,6 +63,8 @@ class ReservationsControllerTest < ActionController::TestCase
     patch :update, params: { id: @reservation, reservation: { end_at: @reservation.end_at, num_participants: @reservation.num_participants, purpose: @reservation.purpose, representative: @reservation.representative, room_id: rooms(:kitchen), start_at: @reservation.start_at } }
     assert_redirected_to reservation_path(assigns(:reservation))
     assert_equal(true, assigns(:invoke_slack_webhook))
+    assert_equal(@reservation.representative, session[:representative])
+    assert_equal(rooms(:kitchen).id, session[:room_id])
   end
 
   test "should update reservation with webhook when the start_at is changed" do
