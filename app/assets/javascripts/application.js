@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery.cookie
+//= require js.cookie
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require twitter/bootstrap

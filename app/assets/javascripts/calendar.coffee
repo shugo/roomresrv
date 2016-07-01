@@ -2,9 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$ ->
-    $.cookie.defaults.path = "/"
-
+$(document).on 'turbolinks:load', ->
     isMobile = window.matchMedia("only screen and (max-width: 760px)").matches
 
     h = (s) ->
@@ -97,15 +95,15 @@ $ ->
                  e.after('<i class="fa fa-refresh"></i>')
             element
         ,
-        defaultView: $.cookie("defaultView") || "month",
-        defaultDate: $.cookie("defaultDate"),
+        defaultView: Cookies.get("defaultView") || "month",
+        defaultDate: Cookies.get("defaultDate"),
         viewRender: (view, element) ->
             element.find(".fc-day-number").each ->
                 if JapaneseHolidays.isHoliday(new Date($(this).attr("data-date")))
                     $(this).addClass("fc-holiday")
-            $.cookie("defaultView", view.name, {expires: 30})
-            $.cookie("defaultDate",
-                     $('#calendar').fullCalendar('getDate').format())
+            Cookies.set("defaultView", view.name, {expires: 30})
+            Cookies.set("defaultDate",
+                        $('#calendar').fullCalendar('getDate').format())
         ,
         editable: true,
         eventDrop: eventEdited,
