@@ -6,18 +6,18 @@ class CalendarControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should set the defaultView cookie value" do
+  test "should set the roomresrv_default_view cookie value" do
     get :index, params: { view: "agendaDay" }
     assert_response :success
 
-    assert_equal("agendaDay", cookies[:defaultView])
+    assert_equal("agendaDay", cookies[:roomresrv_default_view])
   end
 
-  test "should not set a invalid value to defaultView" do
+  test "should not set a invalid value to roomresrv_default_view" do
     get :index, params: { view: "noSuchView" }
     assert_response :success
 
-    assert_equal(nil, cookies[:defaultView])
+    assert_equal(nil, cookies[:roomresrv_default_view])
     assert_equal("viewパラメータの値が不正です: noSuchView", flash[:notice])
   end
 

@@ -6,7 +6,7 @@ class CalendarController < ApplicationController
   def index
     if params[:view]
       if AVAILABLE_VIEWS.include?(params[:view])
-        cookies[:defaultView] = params[:view]
+        cookies[:roomresrv_default_view] = params[:view]
       else
         flash[:notice] = "viewパラメータの値が不正です: #{params[:view]}"
       end
