@@ -95,15 +95,16 @@ $(document).on 'turbolinks:load', ->
                  e.after('<i class="fa fa-refresh"></i>')
             element
         ,
-        defaultView: Cookies.get("defaultView") || "month",
-        defaultDate: Cookies.get("defaultDate"),
+        defaultView: Cookies.get("roomresrv_default_view") || "month",
+        defaultDate: Cookies.get("roomresrv_default_date"),
         viewRender: (view, element) ->
             element.find(".fc-day-number").each ->
                 if JapaneseHolidays.isHoliday(new Date($(this).attr("data-date")))
                     $(this).addClass("fc-holiday")
-            Cookies.set("defaultView", view.name, {expires: 30})
-            Cookies.set("defaultDate",
-                        $('#calendar').fullCalendar('getDate').format())
+            Cookies.set("roomresrv_default_view", view.name, {expires: 30})
+            Cookies.set("roomresrv_default_date",
+                        $('#calendar').fullCalendar('getDate').format(),
+                        {expires: 0.5})
         ,
         editable: true,
         eventDrop: eventEdited,

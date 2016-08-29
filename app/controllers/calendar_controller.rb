@@ -14,9 +14,9 @@ class CalendarController < ApplicationController
     if params[:date]
       case params[:date]
       when /\A\d{4}-\d{2}-\d{2}\z/
-        cookies[:defaultDate] = params[:date]
+        cookies[:roomresrv_default_date] = params[:date]
       when "today"
-        cookies[:defaultDate] = Date.today.iso8601
+        cookies[:roomresrv_default_date] = Date.today.iso8601
       else
         flash[:notice] = "dateパラメータの値が不正です: #{params[:date]}"
       end
@@ -40,7 +40,7 @@ class CalendarController < ApplicationController
   end
 
   private
-  
+
   def set_rooms
     @rooms = Room.includes(:office).ordered
     rgb = [0, 24, 64]

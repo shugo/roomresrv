@@ -25,14 +25,14 @@ class CalendarControllerTest < ActionController::TestCase
     get :index, params: { date: "2016-04-01" }
     assert_response :success
 
-    assert_equal("2016-04-01", cookies[:defaultDate])
+    assert_equal("2016-04-01", cookies[:roomresrv_default_date])
   end
 
   test "should set today to defaultDate" do
     get :index, params: { date: "today" }
     assert_response :success
 
-    assert_equal(Date.today.iso8601, cookies[:defaultDate])
+    assert_equal(Date.today.iso8601, cookies[:roomresrv_default_date])
   end
 
   test "should not set a invalid value to defaultDate" do
