@@ -21,14 +21,14 @@ class CalendarControllerTest < ActionController::TestCase
     assert_equal("viewパラメータの値が不正です: noSuchView", flash[:notice])
   end
 
-  test "should set the defaultDate cookie value" do
+  test "should set the roomresrv_default_date cookie value" do
     get :index, params: { date: "2016-04-01" }
     assert_response :success
 
     assert_equal("2016-04-01", cookies[:roomresrv_default_date])
   end
 
-  test "should set today to defaultDate" do
+  test "should set today to roomresrv_default_date" do
     get :index, params: { date: "today" }
     assert_response :success
 
