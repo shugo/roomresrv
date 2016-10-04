@@ -98,7 +98,7 @@ $(document).on 'turbolinks:load', ->
         defaultView: Cookies.get("roomresrv_default_view") || "month",
         defaultDate: Cookies.get("roomresrv_default_date"),
         viewRender: (view, element) ->
-            element.find(".fc-day-number").each ->
+            element.find(".fc-day-number, .fc-day-header").each ->
                 if JapaneseHolidays.isHoliday(new Date($(this).attr("data-date")))
                     $(this).addClass("fc-holiday")
             Cookies.set("roomresrv_default_view", view.name, {expires: 30})
