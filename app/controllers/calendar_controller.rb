@@ -93,7 +93,8 @@ class CalendarController < ApplicationController
         cancel.start_on
       }
       while t < end_time
-        unless canceled_dates.include?(t.to_date)
+        if t >= reservation.start_at &&
+          !canceled_dates.include?(t.to_date)
           a << reservation_event(reservation, t,
                                  reservation.end_at +
                                  (t - reservation.start_at))
