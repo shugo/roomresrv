@@ -87,4 +87,33 @@ class ReservationTest < ActiveSupport::TestCase
       assert_equal(false, r.save)
     end
   end
+
+  test "same reservation does not conflict" do
+    @reservation.touch
+    assert_equal(true, @reservation.save)
+  end
+
+  test "weekly reservation conflicts" do
+    wr = Reservation.create!(room: rooms(:ousetsu),
+                             representative: "前田",
+                             purpose: "A社加藤様来社",
+                             num_participants: 3,
+                             start_at: Time.zone.local(2016, 10, 15, 15, 0, 0),
+                             end_at: Time.zone.local(2016, 10, 15, 16, 0, 0),
+                             repeating_mode: "weekly")
+    [
+      [wr.start_at - 30.minutes, wr.start_at + 30.minutes],
+      [wr.end_at - 30.minutes, wr.end_at + 30.minutes],
+      [wr.start_at - 10.minutes, wr.end_at + 10.minutes],
+      [wr.start_at + 10.minutes, wr.end_at - 10.minutes]
+    ].each do |start_at, end_at|
+      r = Reservation.new(room: wr.room,
+                          representative: "鈴木",
+                          purpose: "B社佐藤様来社",
+                          num_participants: 3,
+                          start_at: start_at + 7.days,
+                          end_at: end_at + 7.days)
+      assert_equal(false, r.save)
+    end
+  end
 end

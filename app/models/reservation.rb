@@ -18,14 +18,8 @@ class Reservation < ApplicationRecord
   }
 
   def check_schedule_conflict
-    reservations = Reservation.where(
-      "room_id = ? AND start_at < ? AND end_at > ?",
-      room_id, end_at, start_at
-    )
-    unless new_record?
-      reservations = reservations.where("NOT id = ?", id)
-    end
-    if reservations.first
+    if conflict_with_no_repeat_reservations? ||
+      conflict_with_weekly_reservations?
       errors.add(:start_at, "は他の予約と重なっています")
       errors.add(:end_at, "は他の予約と重なっています")
     end
@@ -34,13 +28,38 @@ class Reservation < ApplicationRecord
     end
   end
 
+  def conflict_with_no_repeat_reservations?
+    reservations = Reservation.no_repeat.where(
+      "room_id = ? AND start_at < ? AND end_at > ?",
+      room_id, end_at, start_at
+    )
+    unless new_record?
+      reservations = reservations.where("NOT id = ?", id)
+    end
+    !reservations.first.nil?
+  end
+
+  def conflict_with_weekly_reservations?
+    reservations = Reservation.includes(:reservation_cancels).
+      weekly.where(room_id: room_id)
+    unless new_record?
+      reservations = reservations.where("NOT id = ?", id)
+    end
+    reservations.flat_map { |r|
+      r.repeat_weekly(start_at.ago(7.days), end_at.since(7.days))
+    }.any? { |r|
+      r[:start_at] < end_at && r[:end_at] > start_at
+    }
+  end
+
   def repeat_weekly(start_time, end_time)
     offset = start_at.wday - start_time.wday
     if offset < 0
       offset += 7
     end
     a = []
-    t = start_time + offset.days + (start_at - start_at.beginning_of_day)
+    t = start_time.beginning_of_day + offset.days +
+      (start_at - start_at.beginning_of_day)
     canceled_dates = reservation_cancels.map { |cancel|
       cancel.start_on
     }
