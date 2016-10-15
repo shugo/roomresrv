@@ -13,9 +13,9 @@
   <dt><strong><%= model_class.human_attribute_name(:num_participants) %>:</strong></dt>
   <dd><%= @reservation.num_participants %></dd>
   <dt><strong><%= model_class.human_attribute_name(:start_at) %>:</strong></dt>
-  <dd><%= @reservation.start_at.strftime("%Y/%m/%d %H:%M") %></dd>
+  <dd><%= @start_at.strftime("%Y/%m/%d %H:%M") %></dd>
   <dt><strong><%= model_class.human_attribute_name(:end_at) %>:</strong></dt>
-  <dd><%= @reservation.end_at.strftime("%Y/%m/%d %H:%M") %></dd>
+  <dd><%= @end_at.strftime("%Y/%m/%d %H:%M") %></dd>
   <dt><strong><%= model_class.human_attribute_name(:repeating_mode) %>:</strong></dt>
   <dd><%= Reservation::REPEATING_MODE_LABELS[@reservation.repeating_mode] %></dd>
 </dl>

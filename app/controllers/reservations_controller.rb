@@ -14,8 +14,15 @@ class ReservationsController < ApplicationController
   # GET /reservations/1.json
   def show
     if @reservation.repeating_mode == "weekly"
+      date = Date.parse(params[:date])
       @reservation_cancel = ReservationCancel.new(reservation: @reservation,
-                                                  start_on: params[:date])
+                                                  start_on: date)
+      offset = date - @reservation.start_at.to_date
+      @start_at = @reservation.start_at.since(offset.days)
+      @end_at = @reservation.end_at.since(offset.days)
+    else
+      @start_at = @reservation.start_at
+      @end_at = @reservation.end_at
     end
   end
 
