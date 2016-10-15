@@ -13,6 +13,10 @@ class ReservationsController < ApplicationController
   # GET /reservations/1
   # GET /reservations/1.json
   def show
+    if @reservation.repeating_mode == "weekly"
+      @reservation_cancel = ReservationCancel.new(reservation: @reservation,
+                                                  start_on: params[:date])
+    end
   end
 
   # GET /reservations/new

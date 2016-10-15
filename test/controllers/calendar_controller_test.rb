@@ -146,7 +146,8 @@ class CalendarControllerTest < ActionController::TestCase
       assert_equal("#{r.purpose}（#{r.representative}）", j["title"])
       assert_equal(json_time(r.start_at), j["start"])
       assert_equal(json_time(r.end_at), j["end"])
-      assert_equal(reservation_path(r), j["url"])
+      assert_equal(reservation_path(r, date: r.start_at.strftime("%Y-%m-%d")),
+                   j["url"])
     end
 
     ts = []
@@ -162,7 +163,8 @@ class CalendarControllerTest < ActionController::TestCase
       assert_equal("#{wr.purpose}（#{wr.representative}）", j["title"])
       assert_equal(json_time(t), j["start"])
       assert_equal(json_time(t + 1.hour), j["end"])
-      assert_equal(reservation_path(wr), j["url"])
+      assert_equal(reservation_path(wr, date: t.strftime("%Y-%m-%d")),
+                   j["url"])
     end
   end
 
@@ -216,7 +218,8 @@ class CalendarControllerTest < ActionController::TestCase
       assert_equal("#{r.purpose}（#{r.representative}）", j["title"])
       assert_equal(json_time(r.start_at), j["start"])
       assert_equal(json_time(r.end_at), j["end"])
-      assert_equal(reservation_path(r), j["url"])
+      assert_equal(reservation_path(r, date: r.start_at.strftime("%Y-%m-%d")),
+                   j["url"])
     end
   end
 

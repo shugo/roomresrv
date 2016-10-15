@@ -42,3 +42,13 @@
               :method => 'delete',
               :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
               :class => 'btn btn-danger' %>
+<% if @reservation_cancel %>
+  <%= bootstrap_form_for [@reservation, @reservation_cancel],
+    :html => { :class => "form-horizontal reservation", :style => "display: inline" } do |f| %>
+
+    <%= f.hidden_field :reservation_id %>
+    <%= f.hidden_field :start_on %>
+
+    <%= f.submit 'この日のみ削除', :class => 'btn btn-default' %>
+  <% end %>
+<% end %>

@@ -66,7 +66,7 @@ class CalendarController < ApplicationController
       repeatingMode: reservation.repeating_mode,
       color: @room_colors[reservation.room_id],
       textColor: "#444444",
-      url: reservation_path(reservation)
+      url: reservation_path(reservation, date: start_at.strftime("%Y-%m-%d"))
     }
   end
 
@@ -80,7 +80,7 @@ class CalendarController < ApplicationController
   end
 
   def weekly_reservations(start_time, end_time)
-    Reservation.includes(:room).weekly.where("repeating_mode = 1").
+    Reservation.includes(:room, :reservation_cancels).weekly.
       order("start_at, id").flat_map { |reservation|
       offset = reservation.start_at.wday - start_time.wday
       if offset < 0
@@ -89,10 +89,15 @@ class CalendarController < ApplicationController
       a = []
       t = start_time + offset.days +
         (reservation.start_at - reservation.start_at.beginning_of_day)
+      canceled_dates = reservation.reservation_cancels.map { |cancel|
+        cancel.start_on
+      }
       while t < end_time
-        a << reservation_event(reservation, t,
-                               reservation.end_at +
-                               (t - reservation.start_at))
+        unless canceled_dates.include?(t.to_date)
+          a << reservation_event(reservation, t,
+                                 reservation.end_at +
+                                 (t - reservation.start_at))
+        end
         t += 7.days
       end
       a

@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  resources :reservations
   get 'calendar/index'
   get 'calendar/help'
   get 'calendar/reservations'
 
+  resources :reservations do
+    resources :reservation_cancels, only: [:create]
+  end
   resources :rooms
   resources :offices
   # The priority is based upon order of creation: first created -> highest priority.
