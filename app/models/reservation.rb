@@ -33,4 +33,23 @@ class Reservation < ApplicationRecord
       errors.add(:end_at, "は開始日時より前の日時です")
     end
   end
+
+  def repeat_weekly(start_time, end_time)
+    offset = start_at.wday - start_time.wday
+    if offset < 0
+      offset += 7
+    end
+    a = []
+    t = start_time + offset.days + (start_at - start_at.beginning_of_day)
+    canceled_dates = reservation_cancels.map { |cancel|
+      cancel.start_on
+    }
+    while t < end_time
+      if t >= start_at && !canceled_dates.include?(t.to_date)
+        a << { start_at: t, end_at: end_at + (t - start_at) }
+      end
+      t += 7.days
+    end
+    a
+  end
 end

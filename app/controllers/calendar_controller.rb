@@ -82,26 +82,9 @@ class CalendarController < ApplicationController
   def weekly_reservations(start_time, end_time)
     Reservation.includes(:room, :reservation_cancels).weekly.
       order("start_at, id").flat_map { |reservation|
-      offset = reservation.start_at.wday - start_time.wday
-      if offset < 0
-        offset += 7
-      end
-      a = []
-      t = start_time + offset.days +
-        (reservation.start_at - reservation.start_at.beginning_of_day)
-      canceled_dates = reservation.reservation_cancels.map { |cancel|
-        cancel.start_on
+      reservation.repeat_weekly(start_time, end_time).map { |r|
+        reservation_event(reservation, r[:start_at], r[:end_at])
       }
-      while t < end_time
-        if t >= reservation.start_at &&
-          !canceled_dates.include?(t.to_date)
-          a << reservation_event(reservation, t,
-                                 reservation.end_at +
-                                 (t - reservation.start_at))
-        end
-        t += 7.days
-      end
-      a
     }
   end
 end
