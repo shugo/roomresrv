@@ -149,6 +149,7 @@ ja:
       destroy: 削除
       cancel: キャンセル
       back: 戻る
+      confirm: 本当に実行しますか？
     titles:
       new: 新規%{model}
       edit: "%{model}の編集"

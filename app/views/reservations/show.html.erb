@@ -49,6 +49,6 @@
     <%= f.hidden_field :reservation_id %>
     <%= f.hidden_field :start_on %>
 
-    <%= f.submit 'この日のみ削除', :class => 'btn btn-default' %>
+    <%= f.submit 'この日のみ削除', class: 'btn btn-default', data: { confirm: t('.confirm', default: t("helpers.links.confirm", default: 'Are you sure?')) } %>
   <% end %>
 <% end %>
