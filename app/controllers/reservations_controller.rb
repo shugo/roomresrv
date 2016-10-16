@@ -50,20 +50,23 @@ class ReservationsController < ApplicationController
   # POST /reservations
   # POST /reservations.json
   def create
-    @reservation = Reservation.new(reservation_params)
+    Reservation.transaction do
+      @reservation = Reservation.new(reservation_params)
+      @reservation.room.lock!
 
-    respond_to do |format|
-      if @reservation.save
-        @invoke_slack_webhook = true
-        format.html { redirect_to @reservation, notice: '予約を登録しました' }
-        format.json { render :show, status: :created, location: @reservation }
-      else
-        @invoke_slack_webhook = false
-        format.html do
-          set_rooms
-          render :new
+      respond_to do |format|
+        if @reservation.save
+          @invoke_slack_webhook = true
+          format.html { redirect_to @reservation, notice: '予約を登録しました' }
+          format.json { render :show, status: :created, location: @reservation }
+        else
+          @invoke_slack_webhook = false
+          format.html do
+            set_rooms
+            render :new
+          end
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
         end
-        format.json { render json: @reservation.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -74,6 +77,7 @@ class ReservationsController < ApplicationController
     Reservation.transaction do
       respond_to do |format|
         @reservation.attributes = reservation_params
+        @reservation.room.lock!
         room_or_time_changed =
           @reservation.room_id_changed? || @reservation.start_at_changed?
         if request.xhr? && @reservation.weekly?
