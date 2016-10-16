@@ -36,7 +36,7 @@ class Reservation < ApplicationRecord
     unless new_record?
       reservations = reservations.where("NOT id = ?", id)
     end
-    !reservations.first.nil?
+    reservations.exists?
   end
 
   def conflict_with_weekly_reservations?
