@@ -57,7 +57,7 @@ class CalendarController < ApplicationController
                         start_at = reservation.start_at,
                         end_at = reservation.end_at)
     {
-      id: reservation.id,
+      id: reservation.id.to_s + start_at.strftime("-%Y-%m-%d"),
       title: "#{reservation.purpose}（#{reservation.representative}）",
       room: reservation.room.name,
       office: reservation.room.office.name,

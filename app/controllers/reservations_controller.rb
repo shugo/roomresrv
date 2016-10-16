@@ -78,17 +78,17 @@ class ReservationsController < ApplicationController
           @reservation.room_id_changed? || @reservation.start_at_changed?
         if request.xhr? && @reservation.weekly?
           reservation_cancel =
-            ReservationCancel.new(reservation: @reservation,
-                                  start_on: params[:date])
+            ReservationCancel.create!(reservation: @reservation,
+                                      start_on: params[:date])
           @reservation = @reservation.dup
           @reservation.repeating_mode = "no_repeat"
         end
         if @reservation.save
-          reservation_cancel.save! if reservation_cancel
           @invoke_slack_webhook = room_or_time_changed
           format.html { redirect_to @reservation, notice: '予約を更新しました' }
           format.json { render :show, status: :ok, location: @reservation }
         else
+          reservation_cancel.destroy if reservation_cancel
           @invoke_slack_webhook = false
           format.html do
             set_rooms
