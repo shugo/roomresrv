@@ -33,7 +33,9 @@ $(document).on 'turbolinks:load', ->
                               }
                           }
                 })
-                    .error (xhr, status, suject) ->
+                    .done (xhr, status, suject) ->
+                        $('#calendar').fullCalendar('refetchEvents')
+                    .fail (xhr, status, suject) ->
                         revertFunc()
                         if xhr.status == 422
                             errors = $.parseJSON(xhr.responseText)

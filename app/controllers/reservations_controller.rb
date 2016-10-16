@@ -71,21 +71,31 @@ class ReservationsController < ApplicationController
   # PATCH/PUT /reservations/1
   # PATCH/PUT /reservations/1.json
   def update
-    respond_to do |format|
-      @reservation.attributes = reservation_params
-      room_or_time_changed =
-        @reservation.room_id_changed? || @reservation.start_at_changed?
-      if @reservation.save
-        @invoke_slack_webhook = room_or_time_changed
-        format.html { redirect_to @reservation, notice: '予約を更新しました' }
-        format.json { render :show, status: :ok, location: @reservation }
-      else
-        @invoke_slack_webhook = false
-        format.html do
-          set_rooms
-          render :edit
+    Reservation.transaction do
+      respond_to do |format|
+        @reservation.attributes = reservation_params
+        room_or_time_changed =
+          @reservation.room_id_changed? || @reservation.start_at_changed?
+        if request.xhr? && @reservation.weekly?
+          reservation_cancel =
+            ReservationCancel.new(reservation: @reservation,
+                                  start_on: params[:date])
+          @reservation = @reservation.dup
+          @reservation.repeating_mode = "no_repeat"
         end
-        format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        if @reservation.save
+          reservation_cancel.save! if reservation_cancel
+          @invoke_slack_webhook = room_or_time_changed
+          format.html { redirect_to @reservation, notice: '予約を更新しました' }
+          format.json { render :show, status: :ok, location: @reservation }
+        else
+          @invoke_slack_webhook = false
+          format.html do
+            set_rooms
+            render :edit
+          end
+          format.json { render json: @reservation.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
