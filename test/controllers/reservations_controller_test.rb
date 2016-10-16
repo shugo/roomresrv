@@ -73,6 +73,20 @@ class ReservationsControllerTest < ActionController::TestCase
     assert_equal(true, assigns(:invoke_slack_webhook))
   end
 
+  test "should copy weekly reservation when xhr is true" do
+    @reservation.weekly!
+    date = @reservation.start_at.since(7.days).to_date
+    patch :update, xhr: true, params: { id: @reservation, reservation: { start_at: @reservation.start_at.since(1.day), end_at: @reservation.end_at.since(1.day) }, date: date.to_s }
+    assert_response :success
+    r = assigns(:reservation)
+    assert_not_equal(@reservation.id, r.id)
+    assert_equal(@reservation.start_at.since(1.day), r.start_at)
+    assert_equal(@reservation.end_at.since(1.day), r.end_at)
+    assert_equal(true,
+                 @reservation.reservation_cancels.exists?(start_on: date))
+    assert_equal(true, assigns(:invoke_slack_webhook))
+  end
+
   test "should destroy reservation" do
     assert_difference('Reservation.count', -1) do
       delete :destroy, params: { id: @reservation }
