@@ -118,6 +118,8 @@ $(document).on 'turbolinks:load', ->
         ,
         editable: true,
         eventLimit: true,
+        eventLimitText: '他',
+        dayPopoverFormat: 'M月D日（ddd）',
         eventDrop: eventEdited,
         eventResize: eventEdited
     })
