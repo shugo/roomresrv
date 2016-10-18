@@ -60,19 +60,23 @@ $(document).on 'turbolinks:load', ->
                 location.href = "/reservations/new?date=" + encodeURIComponent(date.format())
         ,
         allDaySlot: false,
-        axisFormat: 'H:mm',
+        slotLabelFormat: 'H:mm',
         minTime: '08:00',
         maxTime: '24:00',
         timeFormat: 'H:mm',
-        columnFormat: {
-            month: 'ddd',
-            week: if isMobile then "ddd" else "M/D（ddd）",
-            day: "M/D（ddd）"
-        },
-        titleFormat: {
-            month: 'YYYY年M月',
-            week: "YYYY年M月D日",
-            day: "YYYY年M月D日（ddd）"
+        views: {
+            month: {
+                columnFormat: 'ddd',
+                titleFormat: 'YYYY年M月'
+            },
+            agendaWeek: {
+                columnFormat: if isMobile then 'ddd' else 'M/D（ddd）',
+                titleFormat: 'YYYY年M月D日'
+            },
+            agendaDay: {
+                columnFormat: 'M/D（ddd）',
+                titleFormat: 'YYYY年M月D日（ddd）'
+            }
         },
         buttonText: {
             today:    '今日',
