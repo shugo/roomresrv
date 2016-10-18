@@ -105,7 +105,7 @@ $(document).on 'turbolinks:load', ->
         defaultDate: Cookies.get("roomresrv_default_date"),
         viewRender: (view, element) ->
             if view.name == "month"
-                selector = ".fc-day-number"
+                selector = ".fc-day-top"
             else
                 selector = ".fc-day-header"
             element.find(selector).each ->
