@@ -117,6 +117,7 @@ $(document).on 'turbolinks:load', ->
                         {expires: 0.5})
         ,
         editable: true,
+        eventLimit: true,
         eventDrop: eventEdited,
         eventResize: eventEdited
     })
