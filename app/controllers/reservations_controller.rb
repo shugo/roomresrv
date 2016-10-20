@@ -1,5 +1,5 @@
 class ReservationsController < ApplicationController
-  before_action :set_reservation, only: [:show, :edit, :update, :destroy]
+  before_action :set_reservation, only: [:edit, :update, :destroy]
   before_action :set_rooms, only: [:new, :edit]
   after_action :remember_fields, only: [:create, :update]
   after_action :invoke_slack_webhook, only: [:create, :update]
@@ -13,6 +13,7 @@ class ReservationsController < ApplicationController
   # GET /reservations/1
   # GET /reservations/1.json
   def show
+    @reservation = Reservation.includes(:room => :office).find(params[:id])
     if @reservation.weekly? && params[:date]
       date = Date.parse(params[:date])
       @reservation_cancel = ReservationCancel.new(reservation: @reservation,
