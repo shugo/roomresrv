@@ -41,15 +41,20 @@ class CalendarController < ApplicationController
 
   private
 
+  ROOM_COLORS = [
+    "#2ecc71",
+    "#3498db",
+    "#9b59b6",
+    "#e67e22",
+    "#e74c3c",
+    "#1abc9c"
+  ]
+
   def set_rooms
     @rooms = Room.includes(:office).ordered
-    rgb = [0, 24, 64]
-    base = 0xff - rgb.max
-    e = rgb.permutation.cycle
+    e = ROOM_COLORS.cycle
     @room_colors = @rooms.each_with_object({}) { |room, h|
-      h[room.id] = "#" + e.next.map { |i|
-        "%02x" % (base + i)
-      }.join
+      h[room.id] = e.next
     }
   end
 
@@ -65,7 +70,7 @@ class CalendarController < ApplicationController
       end: end_at,
       repeatingMode: reservation.repeating_mode,
       color: @room_colors[reservation.room_id],
-      textColor: "#444444",
+      textColor: "#fff",
       url: reservation_path(reservation, date: start_at.strftime("%Y-%m-%d"))
     }
   end
