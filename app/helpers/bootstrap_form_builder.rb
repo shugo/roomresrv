@@ -4,7 +4,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
     if errors_on?(attribute)
       classes << "has-error"
     end
-    label_classes = ["control-label", "col-lg-2 col-xs-3"]
+    label_classes = ["control-label", "col-lg-2 col-sm-3 col-xs-4"]
     required = object.class.validators_on(attribute).any? { |v|
       v.kind == :presence
     }
@@ -15,7 +15,7 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
                 label(attribute, class: label_classes.join(" ")) + "\n" +
                 content_tag("div",
                             @template.capture(self, &block),
-                            class: "col-lg-6 col-xs-9") + "\n" + error_span(attribute),
+                            class: "col-lg-6 col-sm-9 col-xs-12") + "\n" + error_span(attribute),
                 class: classes.join(" ")) + "\n"
   end
 
