@@ -23,10 +23,3 @@ label.required:after {
   content: "*";
   color: #aa0000;
 }
-
-table, .table {
-
-  a:not(.btn) {
-    text-decoration: none;
-  }
-}
