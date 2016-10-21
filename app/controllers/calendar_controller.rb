@@ -48,7 +48,9 @@ class CalendarController < ApplicationController
     "#e67e22",
     "#e74c3c",
     "#1abc9c"
-  ]
+  ].map { |s|
+    "#" + Color::RGB.by_hex(s).lighten_by(50).hex
+  }
 
   def set_rooms
     @rooms = Room.includes(:office).ordered
@@ -70,7 +72,7 @@ class CalendarController < ApplicationController
       end: end_at,
       repeatingMode: reservation.repeating_mode,
       color: @room_colors[reservation.room_id],
-      textColor: "#fff",
+      textColor: "#444444",
       url: reservation_path(reservation, date: start_at.strftime("%Y-%m-%d"))
     }
   end
