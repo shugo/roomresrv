@@ -42,8 +42,8 @@ class CalendarController < ApplicationController
   private
 
   ROOM_COLORS = [
-    "#2ecc71",
     "#3498db",
+    "#2ecc71",
     "#9b59b6",
     "#e67e22",
     "#e74c3c",
