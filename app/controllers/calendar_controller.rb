@@ -23,6 +23,12 @@ class CalendarController < ApplicationController
     end
     unless request.from_smartphone?
       set_rooms
+      if cookies[:roomresrv_selected_rooms]
+        @selected_rooms =
+          cookies[:roomresrv_selected_rooms].split(",").map(&:to_i)
+      else
+        @selected_rooms = @rooms.map(&:id)
+      end
     end
   end
 
@@ -67,6 +73,7 @@ class CalendarController < ApplicationController
       id: reservation.id.to_s + start_at.strftime("-%Y-%m-%d"),
       title: "#{reservation.purpose}（#{reservation.representative}）",
       room: reservation.room.name,
+      roomId: reservation.room.id,
       office: reservation.room.office.name,
       start: start_at,
       end: end_at,

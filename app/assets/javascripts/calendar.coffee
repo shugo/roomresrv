@@ -94,12 +94,16 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
-            if event.repeatingMode == "weekly"
-                 e = element.find(".fc-time")
-                 if e.prop("tagName") != "SPAN"
-                     e = e.find("span")
-                 e.after('<i class="fa fa-refresh"></i>')
-            element
+            selector = '#room' + event.roomId
+            if !$(selector)[0] || $(selector).prop('checked')
+                if event.repeatingMode == "weekly"
+                     e = element.find(".fc-time")
+                     if e.prop("tagName") != "SPAN"
+                         e = e.find("span")
+                     e.after('<i class="fa fa-refresh"></i>')
+                element
+            else
+                false
         ,
         defaultView: Cookies.get("roomresrv_default_view") || "month",
         defaultDate: Cookies.get("roomresrv_default_date"),
@@ -123,5 +127,10 @@ $(document).on 'turbolinks:load', ->
         eventDrop: eventEdited,
         eventResize: eventEdited
     })
+
+@roomSelectionChanged = ->
+    $('#calendar').fullCalendar 'rerenderEvents'
+    rooms = ($(e).val() for e in $('.room-select') when $(e).prop('checked'))
+    Cookies.set("roomresrv_selected_rooms", rooms.join(","), {expires: 30})
 
 # vim: set expandtab :

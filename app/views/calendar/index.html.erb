@@ -2,6 +2,10 @@
 <div id="room-legend">
   <% @rooms.each do |room| %>
     <span class="room" style="background-color: <%= @room_colors[room.id] %>">
+      <%= check_box_tag "room#{room.id}", room.id,
+                        @selected_rooms.include?(room.id),
+                        onclick: "roomSelectionChanged()",
+                        class: "room-select" %>
       <%= room.name_with_office %>
     </span>
   <% end %>
