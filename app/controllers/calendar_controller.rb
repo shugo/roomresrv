@@ -1,5 +1,5 @@
 class CalendarController < ApplicationController
-  before_action :set_rooms, only: [:reservations]
+  before_action :set_rooms, only: [:index, :reservations]
 
   AVAILABLE_VIEWS = ["month", "agendaWeek", "agendaDay"]
 
@@ -21,8 +21,9 @@ class CalendarController < ApplicationController
         flash[:notice] = "dateパラメータの値が不正です: #{params[:date]}"
       end
     end
-    unless request.from_smartphone?
-      set_rooms
+    if request.from_smartphone?
+      @room_id = cookies[:roomresrv_room_id] || @rooms[0].id
+    else
       if cookies[:roomresrv_selected_rooms]
         @selected_rooms =
           cookies[:roomresrv_selected_rooms].split(",").map(&:to_i)

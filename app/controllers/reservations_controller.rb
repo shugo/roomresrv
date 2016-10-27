@@ -33,8 +33,8 @@ class ReservationsController < ApplicationController
     if session[:representative]
       @reservation.representative = session[:representative]
     end
-    if session[:room_id]
-      @reservation.room_id = session[:room_id]
+    if cookies[:roomresrv_room_id]
+      @reservation.room_id = cookies[:roomresrv_room_id]
     end
     if params[:date]
       @reservation.start_at = Time.parse(params[:date])
@@ -130,7 +130,7 @@ class ReservationsController < ApplicationController
     def remember_fields
       if @reservation.persisted? && !@reservation.changed?
         session[:representative] = @reservation.representative
-        session[:room_id] = @reservation.room_id
+        cookies[:roomresrv_room_id] = @reservation.room_id
       end
     end
 

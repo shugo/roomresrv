@@ -1,14 +1,18 @@
-<% unless request.from_smartphone? %>
 <div id="room-legend">
+<% if request.from_smartphone? %>
+  <%= select_tag "room-select",
+                 options_from_collection_for_select(@rooms, :id, :name_with_office, @room_id),
+                 onchange: "roomSelectionChanged()" %>
+<% else %>
   <% @rooms.each do |room| %>
     <span class="room" style="background-color: <%= @room_colors[room.id] %>">
       <%= check_box_tag "room#{room.id}", room.id,
                         @selected_rooms.include?(room.id),
                         onclick: "roomSelectionChanged()",
-                        class: "room-select" %>
+                        class: "room-check" %>
       <%= room.name_with_office %>
     </span>
   <% end %>
-</div>
 <% end %>
+</div>
 <div id="calendar"></div>

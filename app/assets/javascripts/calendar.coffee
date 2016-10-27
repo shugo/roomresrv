@@ -71,11 +71,11 @@ $(document).on 'turbolinks:load', ->
             },
             agendaWeek: {
                 columnFormat: if isMobile then 'ddd' else 'M/D（ddd）',
-                titleFormat: 'YYYY年M月D日'
+                titleFormat: if isMobile then 'M月D日' else 'YYYY年M月D日'
             },
             agendaDay: {
                 columnFormat: 'M/D（ddd）',
-                titleFormat: 'YYYY年M月D日（ddd）'
+                titleFormat: if isMobile then 'M月D日（ddd）' else 'YYYY年M月D日（ddd）'
             }
         },
         buttonText: {
@@ -94,8 +94,9 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
-            selector = '#room' + event.roomId
-            if !$(selector)[0] || $(selector).prop('checked')
+            if ($('#room-select')[0] &&
+                $('#room-select').val() == event.roomId.toString()) ||
+               $('#room' + event.roomId).prop('checked')
                 if event.repeatingMode == "weekly"
                      e = element.find(".fc-time")
                      if e.prop("tagName") != "SPAN"
@@ -130,7 +131,11 @@ $(document).on 'turbolinks:load', ->
 
 @roomSelectionChanged = ->
     $('#calendar').fullCalendar 'rerenderEvents'
-    rooms = ($(e).val() for e in $('.room-select') when $(e).prop('checked'))
-    Cookies.set("roomresrv_selected_rooms", rooms.join(","), {expires: 30})
+    if $('#room-select')[0]
+        Cookies.set("roomresrv_room_id", $('#room-select').val())
+    else
+        rooms = ($(e).val() for e in $('.room-check') when $(e).prop('checked'))
+        Cookies.set("roomresrv_selected_rooms", rooms.join(","),
+                    {expires: 30})
 
 # vim: set expandtab :
