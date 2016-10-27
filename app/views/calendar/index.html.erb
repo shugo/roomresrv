@@ -2,6 +2,7 @@
 <% if request.from_smartphone? %>
   <%= select_tag "room-select",
                  options_from_collection_for_select(@rooms, :id, :name_with_office, @room_id),
+                 class: "form-control select",
                  onchange: "roomSelectionChanged()" %>
 <% else %>
   <% @rooms.each do |room| %>
