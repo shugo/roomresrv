@@ -56,7 +56,6 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.10.0)
-    color (1.8)
     commonjs (0.2.7)
     concurrent-ruby (1.0.2)
     erubis (2.7.0)
@@ -207,7 +206,6 @@ DEPENDENCIES
   bundler-audit
   byebug
   coffee-rails (>= 4.0.0)
-  color
   fullcalendar-rails
   i18n_generators
   jbuilder (~> 2.0)

@@ -49,15 +49,13 @@ class CalendarController < ApplicationController
   private
 
   ROOM_COLORS = [
-    "#3498db",
-    "#2ecc71",
-    "#9b59b6",
-    "#e67e22",
-    "#e74c3c",
-    "#1abc9c"
-  ].map { |s|
-    "#" + Color::RGB.by_hex(s).lighten_by(50).hex
-  }
+    "#9acced",
+    "#97e6b8",
+    "#cdacdb",
+    "#f3bf91",
+    "#f3a69e",
+    "#8ddece"
+  ]
 
   def set_rooms
     @rooms = Room.includes(:office).ordered
