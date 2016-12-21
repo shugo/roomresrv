@@ -17,7 +17,7 @@ class CalendarControllerTest < ActionController::TestCase
     get :index, params: { view: "noSuchView" }
     assert_response :success
 
-    assert_equal(nil, cookies[:roomresrv_default_view])
+    assert_nil(cookies[:roomresrv_default_view])
     assert_equal("viewパラメータの値が不正です: noSuchView", flash[:notice])
   end
 
@@ -39,7 +39,7 @@ class CalendarControllerTest < ActionController::TestCase
     get :index, params: { date: "invalid" }
     assert_response :success
 
-    assert_equal(nil, cookies[:defaultDate])
+    assert_nil(cookies[:defaultDate])
     assert_equal("dateパラメータの値が不正です: invalid", flash[:notice])
   end
 

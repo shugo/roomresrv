@@ -16,8 +16,8 @@ class ReservationsControllerTest < ActionController::TestCase
     assert_response :success
 
     r = assigns(:reservation)
-    assert_equal(nil, r.representative)
-    assert_equal(nil, r.room_id)
+    assert_nil(r.representative)
+    assert_nil(r.room_id)
   end
 
   test "should get new with session data" do
