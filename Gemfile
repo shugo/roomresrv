@@ -52,6 +52,7 @@ group :development, :test do
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
   gem 'simplecov'
+  gem 'codecov'
 end
 
 group :development do
