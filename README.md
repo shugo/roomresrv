@@ -5,6 +5,7 @@ Meeting reservation system for NaCl
 
 [![Build Status](https://travis-ci.org/shugo/roomresrv.svg?branch=master)](https://travis-ci.org/shugo/roomresrv)
 [![security](https://hakiri.io/github/shugo/roomresrv/master.svg)](https://hakiri.io/github/shugo/roomresrv/master)
+[![codecov](https://codecov.io/gh/shugo/roomresrv/branch/master/graph/badge.svg)](https://codecov.io/gh/shugo/roomresrv)
 
 Setup
 -----
