@@ -51,6 +51,7 @@ group :development, :test do
   gem 'byebug'
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
+  gem 'simplecov'
 end
 
 group :development do
