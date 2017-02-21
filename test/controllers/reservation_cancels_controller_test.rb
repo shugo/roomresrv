@@ -6,14 +6,14 @@ class ReservationCancelsControllerTest < ActionDispatch::IntegrationTest
   # end
   setup do
     @reservation = reservations(:kaigi)
-    @reservation.start_at += 7.day
   end 
 
 
   test "should reservation cancels" do
-    post reservation_reservation_cancels_path(@reservation) ,params:{reservation_cancel:  {start_on: @reservation.start_at}}
+    date = (@reservation.start_at + 7.day).to_date
+    post reservation_reservation_cancels_path(@reservation) ,params:{reservation_cancel:  {reservation_id: @reservation.id, start_on:date}}
     assert_redirected_to(controller:"calendar",action:"index")
-    assert(@reservation.reservation_cancels(true))
+    assert_equal(date,@reservation.reservation_cancels.first.start_on)
   end
 
 end
