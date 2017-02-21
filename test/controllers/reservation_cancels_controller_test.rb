@@ -5,12 +5,12 @@ class ReservationCancelsControllerTest < ActionDispatch::IntegrationTest
   #   assert true
   # end
   setup do
-    @reservationcancel = reservations(:mendan)
+    @reservation = reservations(:kaigi)
   end 
 
 
   test "should reservation cancels" do
-    post "/reservations/#{@reservationcancel.id}/reservation_cancels" ,params:{reservation_cancel: {id: @reservationcancel.id,start_on:@reservationcancel.start_at}}
-    assert_response :redirect
+    post reservation_reservation_cancels_path(@reservation) ,params:{reservation_cancel:  {start_on: @reservation.start_at + 7.day}}
+    assert_redirected_to(controller:"calendar",action:"index")
   end
 end
