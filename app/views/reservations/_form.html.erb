@@ -19,7 +19,7 @@
     <%= f.text_field :num_participants %>
   <% end %>
   <%= f.form_group(:note) do %>
-    <%= f.text_area :note ,:sixe => "20x40" %>
+    <%= f.text_area :note ,:size => "30x10" %>
   <% end %>
   <%= f.form_group(:start_at) do %>
     <%= f.datetime_select :start_at, {use_month_numbers: true, minute_step: 5},
