@@ -13,7 +13,7 @@
   <dt><strong><%= model_class.human_attribute_name(:num_participants) %>:</strong></dt>
   <dd><%= @reservation.num_participants %></dd>
   <dt><strong><%= model_class.human_attribute_name(:note) %>:</strong></dt>
-  <dd><%= @reservation.note %></dd>
+  <dd><%= simple_format(h( @reservation.note)) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:start_at) %>:</strong></dt>
   <dd><%= @start_at.strftime("%Y/%m/%d %H:%M") %></dd>
   <dt><strong><%= model_class.human_attribute_name(:end_at) %>:</strong></dt>
