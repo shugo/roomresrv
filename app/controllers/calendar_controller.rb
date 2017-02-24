@@ -71,6 +71,8 @@ class CalendarController < ApplicationController
     {
       id: reservation.id.to_s + start_at.strftime("-%Y-%m-%d"),
       title: "#{reservation.purpose}（#{reservation.representative}）",
+      representative: reservation.representative,
+      purpose: reservation.purpose,
       room: reservation.room.name,
       roomId: reservation.room.id,
       office: reservation.room.office.name,

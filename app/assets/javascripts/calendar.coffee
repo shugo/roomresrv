@@ -89,7 +89,7 @@ $(document).on 'turbolinks:load', ->
         dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
         dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
 
-        eventMouseover: (event,allDya,jsEvent) ->
+        eventMouseover: (event,allDay,jsEvent) ->
           console.log("hoge") 
           $('body').prepend(event.tooltip);
 
@@ -98,9 +98,10 @@ $(document).on 'turbolinks:load', ->
 
 
           $('#tooltip')
-           .css('top', (jsEvent.clientY - xOffset) + 'px')
-           .css('left', (jsEvent.clientX + yOffset) + 'px')
+           .css('top', (allDay.clientY - xOffset) + 'px')
+           .css('left', (allDay.clientX + yOffset) + 'px')
            .fadeIn();
+
         eventMouseout: (event) ->
           $("#tooltip").remove()
 
@@ -111,9 +112,11 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
-            console.log(event)
-            popupmsg = "title:#{event.title} <br>  room:#{event.room}"
-            event.tooltip =  '<span id="tooltip"> ' + popupmsg + '</span>'
+            purpose = event.purpose
+            representative = event.representative
+            popup_msg = "担当者:#{representative} <br> 用途:#{purpose} <br> 会議室:#{event.room}"
+            event.tooltip =  '<span id="tooltip"> ' + popup_msg + '</span>'
+
             if ($('#room-select')[0] &&
                 $('#room-select').val() == event.roomId.toString()) ||
                $('#room' + event.roomId).prop('checked')
