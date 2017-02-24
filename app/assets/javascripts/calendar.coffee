@@ -91,6 +91,18 @@ $(document).on 'turbolinks:load', ->
 
         eventMouseover: (event,allDya,jsEvent) ->
           console.log("hoge") 
+          $('body').prepend(event.tooltip);
+
+          xOffset = 30 + $('#tooltip').height();
+          yOffset = -20;
+
+
+          $('#tooltip')
+           .css('top', (jsEvent.clientY - xOffset) + 'px')
+           .css('left', (jsEvent.clientX + yOffset) + 'px')
+           .fadeIn();
+        eventMouseout: (event) ->
+          $("#tooltip").remove()
 
         events: {
                
@@ -99,6 +111,9 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
+            console.log(event)
+            popupmsg = "title:#{event.title} <br>  room:#{event.room}"
+            event.tooltip =  '<span id="tooltip"> ' + popupmsg + '</span>'
             if ($('#room-select')[0] &&
                 $('#room-select').val() == event.roomId.toString()) ||
                $('#room' + event.roomId).prop('checked')
