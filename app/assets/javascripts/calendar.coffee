@@ -111,9 +111,9 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
-            purpose = event.purpose
-            representative = event.representative
-            note = event.note
+            purpose = h(event.purpose)
+            representative = h(event.representative)
+            note = h(event.note)
             if note == null
               note = " " 
 
@@ -164,4 +164,6 @@ $(document).on 'turbolinks:load', ->
         Cookies.set("roomresrv_selected_rooms", rooms.join(","),
                     {expires: 30})
 
+
+    
 # vim: set expandtab :
