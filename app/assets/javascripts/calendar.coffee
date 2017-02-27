@@ -113,12 +113,14 @@ $(document).on 'turbolinks:load', ->
         eventRender: (event, element) ->
             purpose = h(event.purpose)
             representative = h(event.representative)
-            note = h(event.note)
+            note = event.note
             if note == null
               note = " " 
+            else
+              note = h(note)
 
             popup_msg = "担当者:#{representative} <br> 用途:#{purpose} <br> 会議室:#{event.room} <br> メモ:#{note}"
-            event.tooltip =  '<span id="tooltip"> ' + popup_msg + '</span>'
+            event.tooltip =  '<span id="tooltip">' + popup_msg + '</span>'
 
             if ($('#room-select')[0] &&
                 $('#room-select').val() == event.roomId.toString()) ||
