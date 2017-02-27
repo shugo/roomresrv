@@ -81,7 +81,8 @@ class CalendarController < ApplicationController
       repeatingMode: reservation.repeating_mode,
       color: @room_colors[reservation.room_id],
       textColor: "#444444",
-      url: reservation_path(reservation, date: start_at.strftime("%Y-%m-%d"))
+      url: reservation_path(reservation, date: start_at.strftime("%Y-%m-%d")),
+      note: reservation.note
     }
   end
 
