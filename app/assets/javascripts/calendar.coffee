@@ -92,8 +92,6 @@ $(document).on 'turbolinks:load', ->
         eventMouseover: (event,allDay,jsEvent) ->
           $('body').prepend(event.tooltip);
           max_width = window.innerWidth
-          console.log("MAX" + max_width)
-          console.log(allDay.clientX)
           diff_disp = max_width - allDay.clientX
           if diff_disp > 300
             xOffset = 30 + $('#tooltip').height();
