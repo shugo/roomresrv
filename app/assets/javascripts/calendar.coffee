@@ -90,7 +90,6 @@ $(document).on 'turbolinks:load', ->
         dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
 
         eventMouseover: (event,allDay,jsEvent) ->
-          console.log("hoge") 
           $('body').prepend(event.tooltip);
 
           xOffset = 30 + $('#tooltip').height();
@@ -114,7 +113,11 @@ $(document).on 'turbolinks:load', ->
         eventRender: (event, element) ->
             purpose = event.purpose
             representative = event.representative
-            popup_msg = "担当者:#{representative} <br> 用途:#{purpose} <br> 会議室:#{event.room}"
+            note = event.note
+            if note == null
+              note = " " 
+
+            popup_msg = "担当者:#{representative} <br> 用途:#{purpose} <br> 会議室:#{event.room} <br> メモ:#{note}"
             event.tooltip =  '<span id="tooltip"> ' + popup_msg + '</span>'
 
             if ($('#room-select')[0] &&
