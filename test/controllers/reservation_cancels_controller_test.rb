@@ -5,7 +5,8 @@ class ReservationCancelsControllerTest < ActionDispatch::IntegrationTest
   #   assert true
   # end
   setup do
-    @reservation = reservations(:kaigi)
+    @reservation = reservations(:mendan)
+    @reservation.weekly!
   end 
 
 
