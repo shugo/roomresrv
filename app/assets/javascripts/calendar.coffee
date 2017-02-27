@@ -88,12 +88,48 @@ $(document).on 'turbolinks:load', ->
         monthNamesShort: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
         dayNames: ['日曜日', '月曜日', '火曜日', '水曜日', '木曜日', '金曜日', '土曜日'],
         dayNamesShort: ['日', '月', '火', '水', '木', '金', '土'],
+
+        eventMouseover: (event,allDay,jsEvent) ->
+          $('body').prepend(event.tooltip);
+          max_width = window.innerWidth
+          console.log("MAX" + max_width)
+          console.log(allDay.clientX)
+          diff_disp = max_width - allDay.clientX
+          if diff_disp > 300
+            xOffset = 30 + $('#tooltip').height();
+            yOffset = -20;
+          else
+            xOffset = -100 + $('#tooltip').height();
+            yOffset = -100;
+
+        
+
+          $('#tooltip')
+           .css('top', (allDay.clientY - xOffset) + 'px')
+           .css('left', (allDay.clientX + yOffset) + 'px')
+           .fadeIn();
+
+        eventMouseout: (event) ->
+          $("#tooltip").remove()
+
         events: {
+               
             url: "/calendar/reservations",
             error: ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
+            purpose = h(event.purpose)
+            representative = h(event.representative)
+            note = event.note
+            if note == null
+              note = " " 
+            else
+              note = h(note)
+
+            popup_msg = "担当者:#{representative} <br> 用途:#{purpose} <br> 会議室:#{event.room} <br> メモ:#{note}"
+            event.tooltip =  '<span id="tooltip">' + popup_msg + '</span>'
+
             if ($('#room-select')[0] &&
                 $('#room-select').val() == event.roomId.toString()) ||
                $('#room' + event.roomId).prop('checked')
@@ -138,4 +174,6 @@ $(document).on 'turbolinks:load', ->
         Cookies.set("roomresrv_selected_rooms", rooms.join(","),
                     {expires: 30})
 
+
+    
 # vim: set expandtab :
