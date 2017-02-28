@@ -50,7 +50,7 @@ class ReservationsController < ApplicationController
     if edit_reservation.weekly?
       @weekly_reservation = true
       @weekly_mode_label = Reservation::REPEATING_MODE_LABELS
-      @weekly_mode_label = {"only_day" => "この日だけ変更"}
+      @weekly_mode_label.store("only_day","この日だけ変更")
     else
       @weekly_reservation = false
     end
