@@ -83,9 +83,6 @@ class ReservationsController < ApplicationController
   # PATCH/PUT /reservations/1
   # PATCH/PUT /reservations/1.json
   def update
-    only_day_flag = false
-    puts "hogeeeeeeeeeee"
-    puts params[:reservation]["start_at(1i)"]
     Reservation.transaction do
       respond_to do |format|
         @reservation.attributes = reservation_params
@@ -93,31 +90,14 @@ class ReservationsController < ApplicationController
         room_or_time_changed =
           @reservation.room_id_changed? || @reservation.start_at_changed?
 
-        if request.xhr? && @reservation.weekly?
-          date = params[:date]
-          only_day_flag = true
-=begin
+        if request.xhr? && @reservation.weekly? || @reservation.only_day?
           reservation_cancel =
             ReservationCancel.create!(reservation: @reservation,
                                       start_on: params[:date])
           @reservation = @reservation.dup
           @reservation.repeating_mode = "no_repeat"
-=end
-        elsif @reservation.only_day?
-          date = params[:reservation]["start_at(1i)"] + "-" + params[:reservation]["start_at(2i)"] +
-                  "-" + params[:reservation]["start_at(3i)"] + "-" + params[:reservation]["start_at(4i)"]
-          date = Date.strptime(date,'%Y-%m-%d')
-          only_day_flag = true
-          puts date
         end
 
-        if only_day_flag
-          reservation_cancel =
-            ReservationCancel.create!(reservation: @reservation,
-                                      start_on:date)
-          @reservation = @reservation.dup
-          @reservation.repeating_mode = "no_repeat"
-        end
 
         if @reservation.save
           @invoke_slack_webhook = room_or_time_changed

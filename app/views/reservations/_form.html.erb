@@ -33,6 +33,7 @@
     reservationEndAtChanged()
   </script>
   <% if @weekly_reservation %>
+    <%= hidden_field_tag :date,params[:date] %>
     <%= f.form_group(:repeating_mode) do %>
       <%= f.select :repeating_mode, @weekly_mode_label.invert %>
     <% end %>

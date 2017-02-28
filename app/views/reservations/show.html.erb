@@ -26,7 +26,7 @@
               {controller: "calendar", action: "index"},
               class: 'btn btn-default' %>
 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_reservation_path(@reservation), :class => 'btn btn-default' %>
+              edit_reservation_path(@reservation,date: params[:date]), :class => 'btn btn-default' %>
 <%
     google_url = "https://www.google.com/calendar/render?" +
       {
