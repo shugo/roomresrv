@@ -36,11 +36,11 @@
     <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
   <% end %>
 
-  <div class="radio-inline">
+  <div class="form-inline">
     <% if @weekly_reservation %>
       <%= hidden_field_tag :date,params[:date] %>
-      <%= label :only_day,"この日だけ変更" ,:class =>"control-label" %>
-      <%= check_box_tag :only_day,true,false ,:size => "20",:class => "radio-inline"%>
+      <%= label :only_day,"この日だけ変更" ,:class => "control-label" %>
+      <%= check_box_tag :only_day,true,false ,:size => "20",:class => "checkbox-inline" %>
     <% end %>
   </div>
 
