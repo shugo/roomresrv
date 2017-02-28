@@ -47,9 +47,7 @@ class ReservationsController < ApplicationController
   # GET /reservations/1/edit
   def edit
     edit_reservation = Reservation.find(params[:id])  
-    puts edit_reservation.weekly?
     if edit_reservation.weekly?
-      puts "INinininininininin"
       @weekly_reservation = true
       @weekly_mode_label = {:"only_day" => "この日だけ変更"}
       Reservation::REPEATING_MODE_LABELS.each do |k,v|
