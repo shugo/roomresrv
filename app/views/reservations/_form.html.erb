@@ -32,10 +32,15 @@
   <script type="text/javascript">
     reservationEndAtChanged()
   </script>
-  <%= f.form_group(:repeating_mode) do %>
-    <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
+  <% if @weekly_reservation %>
+    <%= f.form_group(:repeating_mode) do %>
+      <%= f.select :repeating_mode, @weekly_mode_label.invert %>
+    <% end %>
+  <% else %>
+    <%= f.form_group(:repeating_mode) do %>
+      <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
+    <% end %>
   <% end %>
-
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
       <%= f.submit nil, :class => 'btn btn-primary' %>
