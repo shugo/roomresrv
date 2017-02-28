@@ -46,10 +46,11 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1/edit
   def edit
+    only_day =false
     edit_reservation = Reservation.find(params[:id])  
     if edit_reservation.weekly?
       @weekly_reservation = true
-      @weekly_mode_label = {:"only_day" => "この日だけ変更"}
+      @weekly_mode_label = {"only_day" => "この日だけ変更"}
       Reservation::REPEATING_MODE_LABELS.each do |k,v|
         @weekly_mode_label.store(k,v)
       end
@@ -85,6 +86,7 @@ class ReservationsController < ApplicationController
   # PATCH/PUT /reservations/1
   # PATCH/PUT /reservations/1.json
   def update
+    puts params[:only_day]
     Reservation.transaction do
       respond_to do |format|
         @reservation.attributes = reservation_params
@@ -92,14 +94,13 @@ class ReservationsController < ApplicationController
         room_or_time_changed =
           @reservation.room_id_changed? || @reservation.start_at_changed?
 
-        if request.xhr? && @reservation.weekly? || @reservation.only_day?
+        if request.xhr? && @reservation.weekly? || params[:only_day]
           reservation_cancel =
             ReservationCancel.create!(reservation: @reservation,
                                       start_on: params[:date])
           @reservation = @reservation.dup
           @reservation.repeating_mode = "no_repeat"
         end
-
 
         if @reservation.save
           @invoke_slack_webhook = room_or_time_changed
