@@ -46,14 +46,10 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1/edit
   def edit
-    only_day =false
     edit_reservation = Reservation.find(params[:id])  
     if edit_reservation.weekly?
       @weekly_reservation = true
-      @weekly_mode_label = {"only_day" => "この日だけ変更"}
-      Reservation::REPEATING_MODE_LABELS.each do |k,v|
-        @weekly_mode_label.store(k,v)
-      end
+      only_day =false
     else
       @weekly_reservation = false
     end
@@ -86,7 +82,6 @@ class ReservationsController < ApplicationController
   # PATCH/PUT /reservations/1
   # PATCH/PUT /reservations/1.json
   def update
-    puts params[:only_day]
     Reservation.transaction do
       respond_to do |format|
         @reservation.attributes = reservation_params
