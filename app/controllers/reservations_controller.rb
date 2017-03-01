@@ -46,6 +46,17 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1/edit
   def edit
+    if @reservation.weekly? && params[:date]
+      t = Time.parse(params[:date])
+      @reservation.start_at = Time.zone.local(t.year, t.month, t.day,
+                                              @reservation.start_at.hour,
+                                              @reservation.start_at.min,
+                                              @reservation.start_at.sec)
+      @reservation.end_at = Time.zone.local(t.year, t.month, t.day,
+                                            @reservation.end_at.hour,
+                                            @reservation.end_at.min,
+                                            @reservation.end_at.sec)
+    end
   end
 
   # POST /reservations

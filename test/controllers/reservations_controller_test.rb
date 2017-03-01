@@ -49,8 +49,12 @@ class ReservationsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
-    get :edit, params: { id: @reservation }
+    @reservation.weekly!
+    get :edit, params: { id: @reservation, date: '2017-03-01' }
     assert_response :success
+    r = assigns(:reservation)
+    assert_equal(Time.zone.local(2017, 3, 1, 14, 0, 0), r.start_at)
+    assert_equal(Time.zone.local(2017, 3, 1, 16, 0, 0), r.end_at)
   end
 
   test "should update reservation without webhook" do
