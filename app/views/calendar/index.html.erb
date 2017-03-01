@@ -11,7 +11,7 @@
                         @selected_rooms.include?(room.id),
                         onclick: "roomSelectionChanged()",
                         class: "room-check" %>
-      <%= room.name_with_office %>
+      <%= label_tag "room#{room.id}", room.name_with_office %>
     </span>
   <% end %>
 <% end %>
