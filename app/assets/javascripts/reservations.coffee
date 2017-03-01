@@ -34,3 +34,12 @@ to2Digits = (n) ->
 @reservationEndAtChanged = ->
     reservationDuration =
         getDate("#reservation_end_at") - getDate("#reservation_start_at")
+
+@reservationRepeatingModeChanged = ->
+    if $("#reservation_repeating_mode").val() == "weekly"
+        $("#only_day").prop("disabled", false)
+        $("#only_day-group").show()
+    else
+        $("#only_day").prop("checked", false)
+        $("#only_day").prop("disabled", true)
+        $("#only_day-group").hide()

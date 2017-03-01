@@ -33,16 +33,19 @@
     reservationEndAtChanged()
   </script>
   <%= f.form_group(:repeating_mode) do %>
-    <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert %>
+    <%= f.select :repeating_mode, Reservation::REPEATING_MODE_LABELS.invert,
+                 {}, onchange: 'reservationRepeatingModeChanged()' %>
   <% end %>
 
-  <div class="form-group">
-    <% if @reservation.weekly? %>
-      <%= hidden_field_tag :date, params[:date] %>
-      <%= label :only_day, "この日だけ変更", :class => "control-label" %>
-      <%= check_box_tag :only_day, true, false, :class => "checkbox-inline" %>
-    <% end %>
-  </div>
+  <% if @reservation.weekly? %>
+    <div id="only_day-group" class="form-group">
+      <div class="col-lg-offset-2 col-lg-10">
+        <%= hidden_field_tag :date, params[:date] %>
+        <%= check_box_tag :only_day, true, false, :class => "checkbox-inline" %>
+        <%= label :only_day, "この日だけ変更" %>
+      </div>
+    </div>
+  <% end %>
 
   <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
