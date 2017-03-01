@@ -37,10 +37,10 @@
   <% end %>
 
   <div class="form-group">
-    <% if @weekly_reservation %>
+    <% if @reservation.weekly? %>
       <%= hidden_field_tag :date,params[:date] %>
-      <%= label :only_day,"この日だけ変更" ,:class => "control-label" %>
-      <%= check_box_tag :only_day,true,false ,:class => "checkbox-inline" %>
+      <%= label :only_day,"この日だけ変更", :class => "control-label" %>
+      <%= check_box_tag :only_day,true,false, :class => "checkbox-inline" %>
     <% end %>
   </div>
 

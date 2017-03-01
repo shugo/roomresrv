@@ -46,13 +46,6 @@ class ReservationsController < ApplicationController
 
   # GET /reservations/1/edit
   def edit
-    edit_reservation = Reservation.find(params[:id])  
-    if edit_reservation.weekly?
-      @weekly_reservation = true
-      only_day =false
-    else
-      @weekly_reservation = false
-    end
   end
 
   # POST /reservations
@@ -89,7 +82,7 @@ class ReservationsController < ApplicationController
         room_or_time_changed =
           @reservation.room_id_changed? || @reservation.start_at_changed?
 
-        if request.xhr? && @reservation.weekly? || params[:only_day]
+        if @reservation.weekly? && (request.xhr? || params[:only_day])
           reservation_cancel =
             ReservationCancel.create!(reservation: @reservation,
                                       start_on: params[:date])
