@@ -6,8 +6,8 @@ class ReservationTest < ActiveSupport::TestCase
                                    representative: "前田",
                                    purpose: "A社加藤様来社",
                                    num_participants: 3,
-                                   start_at: Time.mktime(2016, 3, 7, 15, 0, 0),
-                                   end_at: Time.mktime(2016, 3, 7, 16, 0, 0))
+                                   start_at: Time.zone.local(2016, 3, 7, 15, 0, 0),
+                                   end_at: Time.zone.local(2016, 3, 7, 16, 0, 0))
     @reservation.save!
   end
 
