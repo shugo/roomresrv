@@ -6,10 +6,16 @@
                  onchange: "roomSelectionChanged()" %>
 <% else %>
   <% @rooms.each do |room| %>
-    <span class="room" style="background-color: <%= @room_colors[room.id] %>">
+    <% if @selected_rooms.include?(room.id) %>
+      <% backgrond_color = @room_colors[room.id] %>
+    <% else %>
+      <% backgrond_color = "#c2c4c6" %>
+    <% end %>
+    <span class="room" style="background-color: <%= backgrond_color %>">
       <%= check_box_tag "room#{room.id}", room.id,
                         @selected_rooms.include?(room.id),
-                        onclick: "roomSelectionChanged();checkColorChanged(#{room.id},\"#{@room_colors[room.id]}\")",
+                        onclick: "roomSelectionChanged();
+                                  checkColorChanged(#{room.id},#{@room_colors[room.id].to_json})",
                         class: "room-check" %>
       <%= label_tag "room#{room.id}", room.name_with_office %>
     </span>
