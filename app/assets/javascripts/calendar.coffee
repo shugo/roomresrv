@@ -1,5 +1,5 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
+# place all the behaviors and hooks related to the matching controller here.
+# all this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
@@ -117,6 +117,13 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
+            dates = [event._start._d,
+                 event._end._d]
+            holiday_chack = JapaneseHolidays.isHoliday(dates[0])
+            if holiday_chack && event.repeatingMode == "weekly"
+              holidayMove(event,dates)
+
+            console.log(event)
             purpose = h(event.purpose)
             representative = h(event.representative)
             note = event.note
@@ -181,4 +188,30 @@ $(document).on 'turbolinks:load', ->
    else
      elements.parentNode.style.backgroundColor = "#c2c4c6"
 
+holidayMove = (event,date) -> 
+   set_day = [0,0]
+   for day, i in date
+     loop
+       holiday = JapaneseHolidays.isHoliday(day)
+       day.setDate(day.getDate() + 1)
+       console.log("hoge")
+       set_day[i] = day
+
+       break unless holiday
+   event.start._d = set_day[0]
+   event.end._d = set_day[1]
+   console.log(event.start.format())
+   $.ajax({
+                    url: event.url,
+                    method: "PATCH",
+                    dataType: "json",
+                    data: {
+                              reservation: {
+                                  start_at: event.start.format(),
+                                  end_at: event.end.format()
+                              }
+                          }
+                })
+
+   
 # vim: set expandtab :
