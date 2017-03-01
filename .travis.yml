@@ -3,6 +3,7 @@ language: ruby
 bundler_args: "--without development --deployment"
 cache: bundler
 before_script:
+- export TZ=Asia/Tokyo
 - cp config/database.postgresql.yml config/database.yml
 - bundle exec rake db:create
 - bundle exec rake db:migrate
