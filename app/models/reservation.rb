@@ -2,7 +2,7 @@ class Reservation < ApplicationRecord
   belongs_to :room
   has_many :reservation_cancels, dependent: :delete_all
 
-  enum repeating_mode: { no_repeat: 0, weekly: 1 }
+  enum repeating_mode: { no_repeat: 0, weekly: 1 } 
 
   validates :room_id, presence: true
   validates :representative, presence: true

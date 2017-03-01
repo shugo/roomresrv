@@ -37,6 +37,14 @@
   <% end %>
 
   <div class="form-group">
+    <% if @reservation.weekly? %>
+      <%= hidden_field_tag :date, params[:date] %>
+      <%= label :only_day, "この日だけ変更", :class => "control-label" %>
+      <%= check_box_tag :only_day, true, false, :class => "checkbox-inline" %>
+    <% end %>
+  </div>
+
+  <div class="form-group">
     <div class="col-lg-offset-2 col-lg-10">
       <%= f.submit nil, :class => 'btn btn-primary' %>
       <%= link_to t('.cancel', default: t("helpers.links.cancel")),
