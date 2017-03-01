@@ -173,5 +173,12 @@ $(document).on 'turbolinks:load', ->
                     {expires: 30})
 
 
-    
+@checkColorChanged = (checkid,roomcolor) ->
+   roomid = "room" + checkid
+   elements = document.getElementById(roomid)
+   if elements.checked == true
+      elements.parentNode.style.backgroundColor = roomcolor
+   else
+     elements.parentNode.style.backgroundColor = "#c2c4c6"
+
 # vim: set expandtab :

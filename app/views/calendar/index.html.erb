@@ -9,7 +9,7 @@
     <span class="room" style="background-color: <%= @room_colors[room.id] %>">
       <%= check_box_tag "room#{room.id}", room.id,
                         @selected_rooms.include?(room.id),
-                        onclick: "roomSelectionChanged()",
+                        onclick: "roomSelectionChanged();checkColorChanged(#{room.id},\"#{@room_colors[room.id]}\")",
                         class: "room-check" %>
       <%= label_tag "room#{room.id}", room.name_with_office %>
     </span>
