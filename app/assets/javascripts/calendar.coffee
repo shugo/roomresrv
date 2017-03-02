@@ -183,7 +183,6 @@ holidayMove = (event,date) ->
        day.setDate(day.getDate() + 1)
        holiday = JapaneseHolidays.isHoliday(day)
        set_day[i] = day
-
        break unless holiday
 
      sat_or_sun = set_day[i].getDay()
@@ -192,7 +191,6 @@ holidayMove = (event,date) ->
          set_day[i].setDate(day.getDate() + 1)
        when 6
          set_day[i].setDate(day.getDate() + 2)
-
 
    event.start._d = set_day[0]
    event.end._d = set_day[1]
