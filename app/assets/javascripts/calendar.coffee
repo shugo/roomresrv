@@ -201,17 +201,21 @@ holidayMove = (event,date) ->
    event.start._d = set_day[0]
    event.end._d = set_day[1]
    console.log(event.start.format())
+   ajaxSender(event.start,event.end,event.url)
+
+ajaxSender = (start,end,url) -> 
    $.ajax({
-                    url: event.url,
+                    url: url,
                     method: "PATCH",
                     dataType: "json",
                     data: {
                               reservation: {
-                                  start_at: event.start.format(),
-                                  end_at: event.end.format()
+                                  start_at: start.format(),
+                                  end_at: end.format()
                               }
                           }
                 })
 
+ 
    
 # vim: set expandtab :
