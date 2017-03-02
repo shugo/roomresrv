@@ -176,7 +176,6 @@ $(document).on 'turbolinks:load', ->
      elements.parentNode.style.backgroundColor = "#c2c4c6"
 
 holidayMove = (event,date) -> 
-   holiday_flag = false
    set_day = [0,0]
    for day, i in date
      loop
