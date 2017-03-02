@@ -192,8 +192,8 @@ holidayMove = (event,date) ->
    set_day = [0,0]
    for day, i in date
      loop
-       holiday = JapaneseHolidays.isHoliday(day)
        day.setDate(day.getDate() + 1)
+       holiday = JapaneseHolidays.isHoliday(day)
        console.log("hoge")
        set_day[i] = day
 
