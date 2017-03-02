@@ -23,9 +23,7 @@ $(document).on 'turbolinks:load', ->
         bootbox.confirm msg, (result) ->
             if result
                ajaxSender(event.start,event.end,event.url)
-                    .done (xhr, status, suject) ->
-                        $('#calendar').fullCalendar('refetchEvents')
-                    .fail (xhr, status, suject) ->
+                   .fail (xhr, status, suject) ->
                         revertFunc()
                         if xhr.status == 422
                             errors = $.parseJSON(xhr.responseText)
@@ -212,7 +210,9 @@ ajaxSender = (start,end,url) ->
                               }
                           }
                 })
-
+                    .done (xhr, status, suject) ->
+                        $('#calendar').fullCalendar('refetchEvents')
+ 
  
    
 # vim: set expandtab :
