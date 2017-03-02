@@ -22,17 +22,7 @@ $(document).on 'turbolinks:load', ->
         msg = "「#{h(event.title)}」の日時を#{h(time)}に変更しますか？"
         bootbox.confirm msg, (result) ->
             if result
-                $.ajax({
-                    url: event.url,
-                    method: "PATCH",
-                    dataType: "json",
-                    data: {
-                              reservation: {
-                                  start_at: event.start.format(),
-                                  end_at: event.end.format()
-                              }
-                          }
-                })
+               ajaxSender(event.start,event.end,event.url)
                     .done (xhr, status, suject) ->
                         $('#calendar').fullCalendar('refetchEvents')
                     .fail (xhr, status, suject) ->
@@ -123,7 +113,6 @@ $(document).on 'turbolinks:load', ->
             if holiday_chack && event.repeatingMode == "weekly"
               holidayMove(event,dates)
 
-            console.log(event)
             purpose = h(event.purpose)
             representative = h(event.representative)
             note = event.note
@@ -189,18 +178,26 @@ $(document).on 'turbolinks:load', ->
      elements.parentNode.style.backgroundColor = "#c2c4c6"
 
 holidayMove = (event,date) -> 
+   holiday_flag = false
    set_day = [0,0]
    for day, i in date
      loop
        day.setDate(day.getDate() + 1)
        holiday = JapaneseHolidays.isHoliday(day)
-       console.log("hoge")
        set_day[i] = day
 
        break unless holiday
+
+     sat_or_sun = set_day[i].getDay()
+     switch sat_or_sun
+       when 0
+         set_day[i].setDate(day.getDate() + 1)
+       when 6
+         set_day[i].setDate(day.getDate() + 2)
+
+
    event.start._d = set_day[0]
    event.end._d = set_day[1]
-   console.log(event.start.format())
    ajaxSender(event.start,event.end,event.url)
 
 ajaxSender = (start,end,url) -> 
