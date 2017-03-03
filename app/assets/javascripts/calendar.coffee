@@ -180,10 +180,9 @@ holidayMove = (event,date,direction) ->
    for day, i in date
      holiday_flag = true
      loop
-       day.setDate(day.getDate() +  direction)
        holiday = JapaneseHolidays.isHoliday(day)
-
-       console.log(holiday)
+       if holiday
+         day.setDate(day.getDate() +  direction)
        set_day[i] = day
        #to
        sat_or_sun = set_day[i].getDay()
@@ -204,10 +203,9 @@ holidayMove = (event,date,direction) ->
    ajaxSender(event.start,event.end,event.url)
                     .fail (xhr, status, suject) ->
                         if xhr.status == 422 &&  direction == 1
-                          console.log("foo")
-                          holidayMove(event,date,-1)                         
-                        else
-                            bootbox.alert("日時を変更できませんでした")
+                          for day,i in set_day
+                            set_day[i].setDate(day.getDate() - 1 )            
+                          holidayMove(event,set_day,-1)                         
  
 
 ajaxSender = (start,end,url) -> 
