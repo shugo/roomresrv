@@ -109,7 +109,7 @@ $(document).on 'turbolinks:load', ->
                  event._end._d]
             holiday_chack = JapaneseHolidays.isHoliday(dates[0])
             if holiday_chack && event.repeatingMode == "weekly"
-              holidayMove(event,dates)
+              holidayMove(event,dates,1)
 
             purpose = h(event.purpose)
             representative = h(event.representative)
@@ -175,25 +175,40 @@ $(document).on 'turbolinks:load', ->
    else
      elements.parentNode.style.backgroundColor = "#c2c4c6"
 
-holidayMove = (event,date) -> 
+holidayMove = (event,date,direction) -> 
    set_day = [0,0]
    for day, i in date
+     holiday_flag = true
      loop
-       day.setDate(day.getDate() + 1)
+       day.setDate(day.getDate() +  direction)
        holiday = JapaneseHolidays.isHoliday(day)
-       set_day[i] = day
-       break unless holiday
 
-     sat_or_sun = set_day[i].getDay()
-     switch sat_or_sun
-       when 0
-         set_day[i].setDate(day.getDate() + 1)
-       when 6
-         set_day[i].setDate(day.getDate() + 2)
+       console.log(holiday)
+       set_day[i] = day
+       #to
+       sat_or_sun = set_day[i].getDay()
+       unless holiday
+          if (sat_or_sun == 0 && direction == 1) || (sat_or_sun == 6 && direction == -1)
+             set_day[i].setDate(set_day[i].getDate() + (1 * direction))
+          else if  (sat_or_sun == 0 && direction == -1) || (sat_or_sun == 6 && direction == 1)
+             set_day[i].setDate(set_day[i].getDate() + (2 * direction))
+
+       if !holiday && sat_or_sun > 0 && sat_or_sun < 6
+           holiday_flag = false
+      #end
+       
+       break unless holiday_flag
 
    event.start._d = set_day[0]
    event.end._d = set_day[1]
    ajaxSender(event.start,event.end,event.url)
+                    .fail (xhr, status, suject) ->
+                        if xhr.status == 422 &&  direction == 1
+                          console.log("foo")
+                          holidayMove(event,date,-1)                         
+                        else
+                            bootbox.alert("日時を変更できませんでした")
+ 
 
 ajaxSender = (start,end,url) -> 
    $.ajax({
