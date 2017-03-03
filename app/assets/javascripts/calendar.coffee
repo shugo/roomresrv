@@ -184,7 +184,6 @@ holidayMove = (event,date,direction) ->
        if holiday
          day.setDate(day.getDate() +  direction)
        set_day[i] = day
-       #to
        sat_or_sun = set_day[i].getDay()
        unless holiday
           if (sat_or_sun == 0 && direction == 1) || (sat_or_sun == 6 && direction == -1)
@@ -194,7 +193,6 @@ holidayMove = (event,date,direction) ->
 
        if !holiday && sat_or_sun > 0 && sat_or_sun < 6
            holiday_flag = false
-      #end
        
        break unless holiday_flag
 
@@ -206,7 +204,6 @@ holidayMove = (event,date,direction) ->
                           for day,i in set_day
                             set_day[i].setDate(day.getDate() - 1 )            
                           holidayMove(event,set_day,-1)                         
- 
 
 ajaxSender = (start,end,url) -> 
    $.ajax({
