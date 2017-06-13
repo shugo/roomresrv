@@ -1,4 +1,4 @@
-class AddIndexToReservation < ActiveRecord::Migration
+class AddIndexToReservation < ActiveRecord::Migration[4.2]
   def change
     add_index :reservations, :start_at, name: "index_reservations_on_start_at"
     add_index :reservations, :end_at, name: "index_reservations_on_end_at"
