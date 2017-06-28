@@ -1,7 +1,7 @@
 class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
   def form_group(attribute, &block)
     classes = ["form-group"]
-    if errors_on?(attribute)
+    if object.errors[attribute].present?
       classes << "has-error"
     end
     label_classes = ["control-label", "col-lg-2 col-sm-3 col-xs-4"]
@@ -42,5 +42,34 @@ class BootstrapFormBuilder < ActionView::Helpers::FormBuilder
       html_opts = html_options.merge(class: "form-control datetime")
     end
     content_tag("div", super(method, options, html_opts), class: "form-inline")
+  end
+
+  # The following code came from twitter-boostrap-rails
+  # 
+  # Copyright (c) 2017 (since 2012) by Seyhun Aky端rek
+  # 
+  # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  # The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+  # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  include ActionView::Helpers::FormTagHelper
+
+  def error_span(attribute, options = {})
+    options[:span_class] ||= 'help-block'
+    options[:error_class] ||= 'has-error'
+
+    if errors_on?(attribute)
+      @template.content_tag( :div, :class => options[:error_class] )  do
+        content_tag( :span, errors_for(attribute), :class => options[:span_class] )
+      end
+    end
+  end
+
+  def errors_on?(attribute)
+    object.errors[attribute].present? if object.respond_to?(:errors)
+  end
+
+  def errors_for(attribute)
+    object.errors[attribute].try(:join, ', ') || object.errors[attribute].try(:to_s)
   end
 end

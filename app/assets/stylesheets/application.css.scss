@@ -16,6 +16,11 @@
  *= require font-awesome
  */
 
+@import "bootstrap-sprockets";
+@import "bootswatch/flatly/variables";
+@import "bootstrap";
+@import "bootswatch/flatly/bootswatch";
+
 footer {
   margin: 2em 0 0 0;
 }
