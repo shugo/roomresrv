@@ -1,3 +1,5 @@
+require "net/http"
+
 class ReservationsController < ApplicationController
   before_action :set_reservation, only: [:edit, :update, :destroy]
   before_action :set_rooms, only: [:new, :edit]
