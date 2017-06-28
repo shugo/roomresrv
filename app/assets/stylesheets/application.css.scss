@@ -29,3 +29,9 @@ label.required:after {
   content: "*";
   color: #aa0000;
 }
+
+.fc-view table {
+  a:not(.btn) {
+    text-decoration: none;
+  }
+}
