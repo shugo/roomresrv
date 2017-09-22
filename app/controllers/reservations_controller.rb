@@ -74,7 +74,7 @@ class ReservationsController < ApplicationController
           format.html { redirect_to @reservation, notice: '予約を登録しました' }
           format.json { render :show, status: :created, location: @reservation }
           if @reservation.room_id == 0 && !ENV["SCHEDULE_EMAIL_ADDRESS"].blank?
-            ScheduleMailer.schedule_mail(@reservation).deliver_later
+            ScheduleMailer.schedule_mail(@reservation).deliver_now
           end
         else
           @invoke_slack_webhook = false
