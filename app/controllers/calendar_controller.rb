@@ -75,7 +75,7 @@ class CalendarController < ApplicationController
       purpose: reservation.purpose,
       room: reservation.room.name,
       roomId: reservation.room.id,
-      office: reservation.room.office.name,
+      office: reservation.room.office&.name,
       start: start_at,
       end: end_at,
       repeatingMode: reservation.repeating_mode,
