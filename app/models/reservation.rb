@@ -18,6 +18,7 @@ class Reservation < ApplicationRecord
   }
 
   def check_schedule_conflict
+    return if room_id == 0
     if conflict_with_no_repeat_reservations? ||
       conflict_with_weekly_reservations?
       errors.add(:start_at, "は他の予約と重なっています")
