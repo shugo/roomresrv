@@ -5,3 +5,5 @@
 日時: <%= @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M") %> 〜 <%= @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M") %>
 メモ:
 <%= @reservation.note %>
+
+<%= reservation_url(@reservation, host: "https://roomresrv.netlab.jp") %>
