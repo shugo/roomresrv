@@ -2,8 +2,6 @@
 
 担当者: <%= @reservation.representative %>
 目的: <%= @reservation.purpose %>
-日時:
-   <%= @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M") %>
-〜 <%= @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M") %>
+日時: <%= @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M") %> 〜 <%= @reservation.start_at.strftime("%Y/%m/%d(%a) %H:%M") %>
 メモ:
 <%= @reservation.note %>
