@@ -108,7 +108,11 @@ class ReservationsController < ApplicationController
 
         if @reservation.save
           @invoke_slack_webhook = room_or_time_changed
-          format.html { redirect_to @reservation, notice: '予約を更新しました' }
+          format.html {
+            # Use reservation_url to avoid a brakeman warning.
+            redirect_to reservation_url(@reservation),
+            notice: '予約を更新しました'
+          }
           format.json { render :show, status: :ok, location: @reservation }
         else
           reservation_cancel.destroy if reservation_cancel
