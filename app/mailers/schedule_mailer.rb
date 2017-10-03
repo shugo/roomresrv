@@ -9,6 +9,7 @@ class ScheduleMailer < ApplicationMailer
       date = start_date + "〜" + end_date
     end
     subject = "#{reservation.representative}予定(#{date})"
-    mail(to: ENV["SCHEDULE_EMAIL_ADDRESS"], subject: subject)
+    mail(from: "#{reservation.representative} <noreply@netlab.jp>",
+         to: ENV["SCHEDULE_EMAIL_ADDRESS"], subject: subject)
   end
 end
