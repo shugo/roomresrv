@@ -1,24 +1,66 @@
 {
   "ignored_warnings": [
     {
-      "warning_type": "Cross Site Scripting",
-      "warning_code": 4,
-      "fingerprint": "a39672e6d473d47f4870806f11e433f7987181f4ed7465a42b9fd7a1e2ed854e",
-      "message": "Unsafe model attribute in link_to href",
-      "file": "app/views/reservations/show.html.erb",
-      "line": 37,
-      "link": "http://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to(\"Google\\u{30ab}\\u{30ec}\\u{30f3}\\u{30c0}\\u{30fc}\\u{306b}\\u{8ffd}\\u{52a0}\", (\"https://www.google.com/calendar/render?\" + { \"action\" => \"TEMPLATE\", \"text\" => Reservation.new(reservation_params).purpose, \"dates\" => ((Reservation.new(reservation_params).start_at.strftime(\"%Y%m%dT%H%M%S\") + \"/\") + Reservation.new(reservation_params).end_at.strftime(\"%Y%m%dT%H%M%S\")), \"location\" => Reservation.new(reservation_params).room.name_with_office }.to_query), :class => \"btn btn-default\", :target => \"_blank\")",
-      "render_path": [{"type":"controller","class":"ReservationsController","method":"create","line":38,"file":"app/controllers/reservations_controller.rb"}],
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "5397afd6c9699eb7587a4a5f40cb523e48892ba9e360979ad4451b2d7f7dcc2a",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/reservations_controller.rb",
+      "line": 180,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:reservation).permit(:room_id, :representative, :purpose, :num_participants, :start_at, :end_at, :repeating_mode, :lock_version, :note)",
+      "render_path": null,
       "location": {
-        "type": "template",
-        "template": "reservations/show"
+        "type": "method",
+        "class": "ReservationsController",
+        "method": "reservation_params"
       },
-      "user_input": "Reservation.new(reservation_params)",
+      "user_input": ":room_id",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "6e880afa1731f5c6ecbf87473e2f9233e0731a2a66e158c093d1ca72ccb5bda1",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/rooms_controller.rb",
+      "line": 72,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:room).permit(:office_id, :name, :lock_version)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "RoomsController",
+        "method": "room_params"
+      },
+      "user_input": ":office_id",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "811f25d2295dddcb93dedfd969d8a17ebbaab8c4aab73d9361adb300ee311460",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/reservation_cancels_controller.rb",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:reservation_cancel).permit(:reservation_id, :start_on)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "ReservationCancelsController",
+        "method": "reservation_cancel_params"
+      },
+      "user_input": ":reservation_id",
       "confidence": "Medium",
       "note": ""
     }
   ],
-  "updated": "2016-03-05 14:28:04 +0900",
-  "brakeman_version": "3.2.1"
+  "updated": "2017-12-18 10:52:09 +0900",
+  "brakeman_version": "4.1.0"
 }
