@@ -1,5 +1,7 @@
 sudo: false
 language: ruby
+rvm:
+- 2.4
 bundler_args: "--without development --deployment"
 cache: bundler
 before_script:
