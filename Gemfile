@@ -31,7 +31,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'pg'
+gem 'pg', '~> 0.21'
 gem 'unicorn'
 gem 'js_cookie_rails'
 gem 'jquery-turbolinks'
