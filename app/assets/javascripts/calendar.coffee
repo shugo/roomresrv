@@ -165,6 +165,7 @@ $(document).on 'turbolinks:load', ->
 
 $(document).on 'turbolinks:before-cache', ->
     $('#calendar').empty()
+    $("#tooltip").remove()
 
 @roomSelectionChanged = ->
     $('#calendar').fullCalendar 'rerenderEvents'
