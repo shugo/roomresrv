@@ -163,6 +163,9 @@ $(document).on 'turbolinks:load', ->
         eventResize: eventEdited
     })
 
+$(document).on 'turbolinks:before-cache', ->
+    $('#calendar').empty()
+
 @roomSelectionChanged = ->
     $('#calendar').fullCalendar 'rerenderEvents'
     if $('#room-select')[0]
