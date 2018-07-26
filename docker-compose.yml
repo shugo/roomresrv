@@ -1,0 +1,25 @@
+version: '3' 
+services: 
+  db:
+    image: postgres:9.3-alpine  
+    volumes:
+      - room-postgresql-datavolume:/var/lib/postgresql/data
+    restart: always 
+    environment:
+      POSTGRES_USER: room 
+      POSTGRES_PASSWORD: room 
+
+  room:  
+    build: .
+    ports:
+      - "80:80"
+    environment: 
+      DATABASE_HOST: db
+      DATABASE_PORT: 5432
+      # Dummy
+      DATABASE_USER: room
+      DATABASE_PASSWORD: room 
+      RAILS_SERVE_STATIC_FILES: 1
+
+volumes:
+  room-postgresql-datavolume:
