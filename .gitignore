@@ -24,3 +24,6 @@
 
 # Ignore temporary files
 *.swp
+
+# Ignore master key for decrypting credentials and more.
+/config/master.key
