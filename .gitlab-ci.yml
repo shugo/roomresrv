@@ -21,7 +21,7 @@ before_script:
 build:
   stage: build
   script:
-    - docker build -t roomresrv .
+    - docker build -t roomresrv --build-arg=RAILS_MASTER_KEY=$RAILS_MASTER_KEY .
     - |
       if [ -n "$CI_COMMIT_TAG" ]
       then
