@@ -1,0 +1,41 @@
+image: docker:18.03.0-ce  
+services:  
+  - name: docker:18.03.0-ce-dind  
+    command:
+      - /bin/sh  
+      - -c
+      - |
+        set -ex  
+        apk add --no-cache openssl ca-certificates  
+        wget -O /usr/local/share/ca-certificates/nacl-ca.crt http://raichu.priv.netlab.jp/pki2/nacl-cer.pem  
+        update-ca-certificates  
+        exec dockerd-entrypoint.sh  
+
+variables:
+  IMAGE_TAG: $CI_REGISTRY_IMAGE/roomresrv
+
+before_script:
+  - export DOCKER_HOST=$DOCKER_PORT
+  - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+
+build:
+  stage: build
+  script:
+    - docker build -t roomresrv .
+    - |
+      if [ -n "$CI_COMMIT_TAG" ]
+      then
+        docker tag eri $IMAGE_TAG:$CI_COMMIT_TAG
+        docker push $IMAGE_TAG:$CI_COMMIT_TAG
+
+      elif [ $CI_COMMIT_REF_NAME = 'master' ]
+      then
+        docker tag eri $IMAGE_TAG
+        docker push $IMAGE_TAG
+
+      else 
+        docker tag eri $IMAGE_TAG/branches:$CI_COMMIT_REF_NAME
+        docker push $IMAGE_TAG/branches:$CI_COMMIT_REF_NAME
+      fi
+
+   
