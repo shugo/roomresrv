@@ -22,7 +22,7 @@ build:
   stage: build
   script:
     - echo "$RAILS_MASTER_KEY" > config/master.key
-    - docker build -t roomresrv --build-arg=RAILS_MASTER_KEY=$RAILS_MASTER_KEY .
+    - docker build -t roomresrv .
     - |
       if [ -n "$CI_COMMIT_TAG" ]
       then
