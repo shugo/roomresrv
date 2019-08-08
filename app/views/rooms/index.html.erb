@@ -16,7 +16,7 @@
     <% @rooms.each do |room| %>
       <tr>
         <td><%= link_to room.id, room_path(room) %></td>
-        <td><%= room.office.name %></td>
+        <td><%= room.office&.name || "-" %></td>
         <td><%= room.name %></td>
         <td><%=l room.created_at %></td>
         <td>
