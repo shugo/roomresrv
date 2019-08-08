@@ -4,6 +4,8 @@ rvm:
 - 2.5.0
 bundler_args: "--without development --deployment"
 cache: bundler
+before_install:
+- gem install bundler -v '1.17.1'
 before_script:
 - cp config/database.postgresql.yml config/database.yml
 - bundle exec rake db:create
