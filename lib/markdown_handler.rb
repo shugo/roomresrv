@@ -13,8 +13,8 @@ module ActionView
                                               space_after_headers: true)
         end
 
-        def call(template)
-          @markdown.render(template.source).dump + ".html_safe"
+        def call(template, source)
+          @markdown.render(source).dump + ".html_safe"
         end
       end
     end
