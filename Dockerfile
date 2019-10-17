@@ -1,6 +1,6 @@
-FROM ruby:2.5.1-alpine  
+FROM ruby:2.5-alpine
 RUN apk add --no-cache libxslt-dev libstdc++ && \
-    apk add --no-cache tzdata mariadb-client-libs nodejs && \
+    apk add --no-cache tzdata mariadb-client nodejs && \
     apk add --no-cache ca-certificates  && \
     apk add --no-cache postgresql-client
 
@@ -11,5 +11,5 @@ RUN apk add --no-cache --virtual build-dependencies postgresql-dev libxml2-dev g
 COPY . /app
 ENV TZ Asia/Tokyo
 RUN bundle exec rake assets:precompile RAILS_ENV=production
-EXPOSE 80 
+EXPOSE 80
 CMD ["./run.sh"]
