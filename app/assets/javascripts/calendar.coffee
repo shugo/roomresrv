@@ -1,5 +1,5 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
+# place all the behaviors and hooks related to the matching controller here.
+# all this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $(document).on 'turbolinks:load', ->
@@ -22,20 +22,8 @@ $(document).on 'turbolinks:load', ->
         msg = "「#{h(event.title)}」の日時を#{h(time)}に変更しますか？"
         bootbox.confirm msg, (result) ->
             if result
-                $.ajax({
-                    url: event.url,
-                    method: "PATCH",
-                    dataType: "json",
-                    data: {
-                              reservation: {
-                                  start_at: event.start.format(),
-                                  end_at: event.end.format()
-                              }
-                          }
-                })
-                    .done (xhr, status, suject) ->
-                        $('#calendar').fullCalendar('refetchEvents')
-                    .fail (xhr, status, suject) ->
+               ajaxSender(event.start,event.end,event.url)
+                   .fail (xhr, status, suject) ->
                         revertFunc()
                         if xhr.status == 422
                             errors = $.parseJSON(xhr.responseText)
@@ -117,6 +105,12 @@ $(document).on 'turbolinks:load', ->
                 alert("予約データの取得に失敗しました")
         },
         eventRender: (event, element) ->
+            dates = [event._start._d,
+                 event._end._d]
+            holiday_chack = JapaneseHolidays.isHoliday(dates[0])
+            if holiday_chack && event.repeatingMode == "weekly"
+              holidayMove(event,dates,1)
+
             purpose = h(event.purpose)
             representative = h(event.representative)
             note = event.note
@@ -185,4 +179,51 @@ $(document).on 'turbolinks:before-cache', ->
    else
      elements.parentNode.style.backgroundColor = "#c2c4c6"
 
+holidayMove = (event,date,direction) -> 
+   set_day = [0,0]
+   for day, i in date
+     holiday_flag = true
+     loop
+       holiday = JapaneseHolidays.isHoliday(day)
+       if holiday
+         day.setDate(day.getDate() +  direction)
+       set_day[i] = day
+       sat_or_sun = set_day[i].getDay()
+       unless holiday
+          if (sat_or_sun == 0 && direction == 1) || (sat_or_sun == 6 && direction == -1)
+             set_day[i].setDate(set_day[i].getDate() + (1 * direction))
+          else if  (sat_or_sun == 0 && direction == -1) || (sat_or_sun == 6 && direction == 1)
+             set_day[i].setDate(set_day[i].getDate() + (2 * direction))
+
+       if !holiday && sat_or_sun > 0 && sat_or_sun < 6
+           holiday_flag = false
+       
+       break unless holiday_flag
+
+   event.start._d = set_day[0]
+   event.end._d = set_day[1]
+   ajaxSender(event.start,event.end,event.url)
+                    .fail (xhr, status, suject) ->
+                        if xhr.status == 422 &&  direction == 1
+                          for day,i in set_day
+                            set_day[i].setDate(day.getDate() - 1 )            
+                          holidayMove(event,set_day,-1)                         
+
+ajaxSender = (start,end,url) -> 
+   $.ajax({
+                    url: url,
+                    method: "PATCH",
+                    dataType: "json",
+                    data: {
+                              reservation: {
+                                  start_at: start.format(),
+                                  end_at: end.format()
+                              }
+                          }
+                })
+                    .done (xhr, status, suject) ->
+                        $('#calendar').fullCalendar('refetchEvents')
+ 
+ 
+   
 # vim: set expandtab :
